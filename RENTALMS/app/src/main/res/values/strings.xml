@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RENTALMS</string>
+    <string name="u_text"><u>Login here</u></string>
+    <string name="u_text1"><u>Create Account</u></string>
+</resources>

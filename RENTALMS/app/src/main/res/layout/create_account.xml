@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f9f9f9"
+    tools:context=".CreateAccount">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:text="Create an Account" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:text="Select what best describe you" />
+
+    <Button
+        android:id="@+id/btntenant"
+        android:layout_width="291dp"
+        android:layout_height="87dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="15dp"
+        android:onClick="openCreateAccount1"
+        android:background="@drawable/btn_background"
+        android:textColor="@color/black"
+        android:text="I am looking for a place to stay \n(for renters)"
+        android:textStyle="bold"
+        tools:ignore="RtlCompat" />
+
+    <Button
+        android:id="@+id/btnlandlord"
+        android:layout_width="291dp"
+        android:layout_height="87dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="15dp"
+        android:onClick="openCreateAccount2"
+        android:background="@drawable/btn_background"
+        android:textColor="@color/black"
+        android:text="I want to post my property \n(for landlords)"
+        android:textStyle="bold"
+        tools:ignore="RtlCompat" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:text="Already have an account? " />
+
+        <TextView
+            android:id="@+id/btnlogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#118EF6"
+            android:textSize="15dp"
+            android:text="@string/u_text"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

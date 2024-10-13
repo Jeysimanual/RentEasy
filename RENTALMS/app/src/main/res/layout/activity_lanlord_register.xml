@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:background="#f9f9f9"
+    tools:context=".LanlordRegister">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/landlordFN"
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:layout_marginBottom="5dp"
+                android:text="Firstname"
+                android:textColor="#118EF6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/Landlordfirstname"
+                android:layout_width="325dp"
+                android:layout_height="39dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/btn_background"
+                android:ems="10"
+                android:hint="  Juan"
+                android:inputType="text"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/landlordLN"
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Lastname"
+                android:textColor="#118EF6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/Landlordlastname"
+                android:layout_width="325dp"
+                android:layout_height="39dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/btn_background"
+                android:ems="10"
+                android:hint="  Dela Cruz"
+                android:inputType="text"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/landlordM"
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:text="Mobile Number"
+                android:textColor="#118EF6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/LandlordMobile"
+                android:layout_width="325dp"
+                android:layout_height="39dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/btn_background"
+                android:ems="10"
+                android:hint="  09381978519"
+                android:inputType="number"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/landlordE"
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:text="Email Address"
+                android:textColor="#118EF6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/LandlordEmail"
+                android:layout_width="325dp"
+                android:layout_height="39dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/btn_background"
+                android:ems="10"
+                android:hint="  Type your email address here"
+                android:inputType="text"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/landlordP"
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:text="Password"
+                android:textColor="#118EF6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/LandlordPassword"
+                android:layout_width="325dp"
+                android:layout_height="39dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/btn_background"
+                android:ems="10"
+                android:hint="  Type your strong password here"
+                android:inputType="textPassword"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/landlordRP"
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:text="Retype Password"
+                android:textColor="#118EF6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/LandlordRetype"
+                android:layout_width="325dp"
+                android:layout_height="39dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/btn_background"
+                android:ems="10"
+                android:hint="  Retype your password here"
+                android:inputType="textPassword"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="By signing up for RentEasy Account, you aggree to our Terms of Service and Privacy" />
+
+            <Button
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/color_btn"
+                android:text="Create Account"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:text="Already have an account? "
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/landlordlogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="@string/u_text"
+                    android:textColor="#118EF6"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
