@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".TenantPage">
+    tools:context=".TenantChat">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home"
+        android:text="Chat"
         android:textColor="@color/blue"
         android:layout_centerInParent="true"
         android:textSize="36sp" />
@@ -28,5 +28,4 @@
         app:itemRippleColor="@android:color/transparent"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/tenant_bottom_menu" />
-
 </RelativeLayout>

@@ -164,6 +164,7 @@
                 android:text="By signing up for RentEasy Account, you aggree to our Terms of Service and Privacy" />
 
             <Button
+                android:id="@+id/btnCreateAccount"
                 android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

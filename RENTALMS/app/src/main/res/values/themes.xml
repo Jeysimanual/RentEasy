@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.RENTALMS" parent="Base.Theme.RENTALMS" />
+
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+    </style>
+
 </resources>

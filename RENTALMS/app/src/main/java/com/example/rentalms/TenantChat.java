@@ -5,23 +5,26 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class TenantPage extends AppCompatActivity {
+public class TenantChat extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tenant_page);
+        setContentView(R.layout.activity_tenant_chat);  // Assuming this is your layout for the chat page
 
-        // Correct the IDs to match your XML resource
+        // Initialize BottomNavigationView and set the selected item to "Chat"
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_search);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_chat);  // Set the selected item to "Chat"
 
         // Set up item selected listener for navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
-            // Handle the search button click (remains on the same page)
+            // Handle the search button click (navigate to TenantPage)
             if (itemId == R.id.bottom_search) {
+                startActivity(new Intent(getApplicationContext(), TenantPage.class));
+                overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);  // Animation for navigation
+                finish();
                 return true;
 
                 // Handle the favorite button click (navigate to TenantFavorite)
@@ -31,12 +34,9 @@ public class TenantPage extends AppCompatActivity {
                 finish();
                 return true;
 
-                // Handle the chat button click (navigate to TenantChat)
+                // Handle the chat button click (stay on the same page)
             } else if (itemId == R.id.bottom_chat) {
-                startActivity(new Intent(getApplicationContext(), TenantChat.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
+                return true;  // Stay on the current activity
 
                 // Handle the more button click (navigate to TenantMore)
             } else if (itemId == R.id.bottom_more) {

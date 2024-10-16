@@ -5,23 +5,26 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class TenantPage extends AppCompatActivity {
+public class TenantMore extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tenant_page);
+        setContentView(R.layout.activity_tenant_more);  // Assuming this is your layout for the "More" page
 
-        // Correct the IDs to match your XML resource
+        // Initialize BottomNavigationView and set the selected item to "More"
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_search);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_more);  // Set the selected item to "More"
 
         // Set up item selected listener for navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
-            // Handle the search button click (remains on the same page)
+            // Handle the search button click (navigate to TenantPage)
             if (itemId == R.id.bottom_search) {
+                startActivity(new Intent(getApplicationContext(), TenantPage.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);  // Animation for navigation
+                finish();
                 return true;
 
                 // Handle the favorite button click (navigate to TenantFavorite)
@@ -38,12 +41,9 @@ public class TenantPage extends AppCompatActivity {
                 finish();
                 return true;
 
-                // Handle the more button click (navigate to TenantMore)
+                // Handle the more button click (stay on the same page)
             } else if (itemId == R.id.bottom_more) {
-                startActivity(new Intent(getApplicationContext(), TenantMore.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-                return true;
+                return true;  // Stay on the current activity
             }
 
             return false;

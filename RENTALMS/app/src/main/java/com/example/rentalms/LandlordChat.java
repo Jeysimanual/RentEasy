@@ -11,40 +11,40 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class LandlordPage extends AppCompatActivity {
+public class LandlordChat extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_landlord_page);
+        setContentView(R.layout.activity_landlord_chat);  // Assuming this is your layout for the chat page
 
-        // Correct the IDs to match your XML resource
+        // Initialize BottomNavigationView and set the selected item to "Chat"
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.btn_home);
+        bottomNavigationView.setSelectedItemId(R.id.btn_chat);  // Set the selected item to "Chat"
 
         // Set up item selected listener for navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
-            // Handle the search button click (remains on the same page)
+
             if (itemId == R.id.btn_home) {
+                startActivity(new Intent(getApplicationContext(), LandlordPage.class));
+                overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);  // Animation for navigation
+                finish();
                 return true;
 
-                // Handle the favorite button click (navigate to LandlordChecklist)
+
             } else if (itemId == R.id.btn_checklist) {
                 startActivity(new Intent(getApplicationContext(), LandlordChecklist.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
                 return true;
 
-                // Handle the chat button click (navigate to TenantChat)
+
             } else if (itemId == R.id.btn_chat) {
-                startActivity(new Intent(getApplicationContext(), LandlordChat.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
                 return true;
 
-                // Handle the more button click (navigate to TenantMore)
+
             } else if (itemId == R.id.btn_more) {
                 startActivity(new Intent(getApplicationContext(), LandlordMore.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -54,6 +54,5 @@ public class LandlordPage extends AppCompatActivity {
 
             return false;
         });
-
     }
 }

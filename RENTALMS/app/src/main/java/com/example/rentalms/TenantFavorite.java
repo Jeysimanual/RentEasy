@@ -5,31 +5,31 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class TenantPage extends AppCompatActivity {
+public class TenantFavorite extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tenant_page);
+        setContentView(R.layout.activity_tenant_favorite);  // Assuming this is your layout for the favorite page
 
         // Correct the IDs to match your XML resource
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_search);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_favorite);  // Set the selected item to "Favorite"
 
         // Set up item selected listener for navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
-            // Handle the search button click (remains on the same page)
+            // Handle the search button click (navigate to TenantPage)
             if (itemId == R.id.bottom_search) {
-                return true;
-
-                // Handle the favorite button click (navigate to TenantFavorite)
-            } else if (itemId == R.id.bottom_favorite) {
-                startActivity(new Intent(getApplicationContext(), TenantFavorite.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                startActivity(new Intent(getApplicationContext(), TenantPage.class));
+                overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);  // Animation for navigation
                 finish();
                 return true;
+
+                // Handle the favorite button click (stay on the same page)
+            } else if (itemId == R.id.bottom_favorite) {
+                return true;  // Stay on the current activity
 
                 // Handle the chat button click (navigate to TenantChat)
             } else if (itemId == R.id.bottom_chat) {
