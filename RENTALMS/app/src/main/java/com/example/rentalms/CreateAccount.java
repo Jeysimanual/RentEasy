@@ -3,16 +3,24 @@ package com.example.rentalms;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateAccount extends AppCompatActivity {
 
+    TextView btnlogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
+
+        btnlogin = findViewById(R.id.btnlogin);
+        btnlogin.setOnClickListener(view -> {
+            startActivity(new Intent(CreateAccount.this, Login.class));
+        });
+
 
     }
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742250658401",
+    "project_id": "rentalms-5ea71",
+    "storage_bucket": "rentalms-5ea71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742250658401:android:a69c60af6e9fcb75ecc820",
+        "android_client_info": {
+          "package_name": "com.example.rentalms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzATN5ALPP1QS6x9KIee0FBIkAVCmmN0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
