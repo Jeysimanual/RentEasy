@@ -3,7 +3,6 @@ package com.example.rentalms;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,8 +43,8 @@ public class Login extends AppCompatActivity {
         // Check if user is already logged in
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            // User is already logged in, check account type and redirect
-            checkUserType(currentUser.getUid());
+            // User is already logged in, clear the session to force a fresh login
+            mAuth.signOut();
         }
 
         // Handle create account redirection
@@ -83,25 +82,35 @@ public class Login extends AppCompatActivity {
     }
 
     private void checkUserType(String userId) {
-        // Retrieve the user's document from Firestore
-        db.collection("Users").document(userId).get().addOnCompleteListener(task -> {
+        // Check if the user exists in the "Landlords" collection
+        db.collection("Landlords").document(userId).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    // Assuming there is a field called "accountType" in the user document
-                    String accountType = document.getString("accountType");
-                    if (accountType != null) {
-                        // Redirect to the appropriate page based on account type
-                        if (accountType.equals("Landlords")) {
-                            startActivity(new Intent(Login.this, LandlordPage.class));
-                        } else if (accountType.equals("Tenants")) {
-                            startActivity(new Intent(Login.this, TenantPage.class));
-                        }
-                        finish(); // Close login activity
-                    } else {
-                        Toast.makeText(Login.this, "Account type not found", Toast.LENGTH_SHORT).show();
-                    }
+                    // User is a Landlord, redirect to Landlord page
+                    startActivity(new Intent(Login.this, LandlordPage.class));
+                    finish(); // Close login activity
                 } else {
+                    // If not found in Landlord, check the Tenant collection
+                    checkTenantCollection(userId);
+                }
+            } else {
+                Toast.makeText(Login.this, "Error fetching user data", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void checkTenantCollection(String userId) {
+        // Check if the user exists in the "Tenants" collection
+        db.collection("Tenants").document(userId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // User is a Tenant, redirect to Tenant page
+                    startActivity(new Intent(Login.this, TenantPage.class));
+                    finish(); // Close login activity
+                } else {
+                    // User data not found in both collections
                     Toast.makeText(Login.this, "User data not found", Toast.LENGTH_SHORT).show();
                 }
             } else {
