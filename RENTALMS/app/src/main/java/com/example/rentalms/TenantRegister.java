@@ -1,5 +1,6 @@
 package com.example.rentalms;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 public class TenantRegister extends AppCompatActivity {
 
     // UI components
-    EditText tenantFirstName, tenantLastName, tenantMobile, tenantEmail, tenantPassword, tenantRetypePassword;
+    EditText tenantFirstName, tenantLastName, tenantMobile, tenantusername, tenantEmail, tenantPassword, tenantRetypePassword;
     TextView tenantLogin;
     Button createAccountButton;
 
@@ -27,6 +28,7 @@ public class TenantRegister extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore tenantDatabase;  // Firestore reference
 
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,7 @@ public class TenantRegister extends AppCompatActivity {
         // Initialize UI components
         tenantFirstName = findViewById(R.id.Tenantfirstname);
         tenantLastName = findViewById(R.id.Tenantlastname);
+        tenantusername = findViewById(R.id.Tenantusername);
         tenantMobile = findViewById(R.id.TenantMobile);
         tenantEmail = findViewById(R.id.TenantEmail);
         tenantPassword = findViewById(R.id.TenantPassword);
@@ -60,6 +63,7 @@ public class TenantRegister extends AppCompatActivity {
     private void createAccount() {
         String firstName = tenantFirstName.getText().toString().trim();
         String lastName = tenantLastName.getText().toString().trim();
+        String username = tenantusername.getText().toString().trim();
         String mobile = tenantMobile.getText().toString().trim();
         String email = tenantEmail.getText().toString().trim();
         String password = tenantPassword.getText().toString().trim();
@@ -82,7 +86,7 @@ public class TenantRegister extends AppCompatActivity {
             if (task.isSuccessful()) {
                 // Account created successfully, now save the user information in Firestore
                 String userId = mAuth.getCurrentUser().getUid();
-                saveTenantInfo(userId, firstName, lastName, mobile, email);
+                saveTenantInfo(userId, firstName, lastName, username, mobile, email);
 
                 // Show success message and navigate to login
                 Toast.makeText(TenantRegister.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
@@ -96,11 +100,12 @@ public class TenantRegister extends AppCompatActivity {
     }
 
     // Function to save tenant information in Firestore Database
-    private void saveTenantInfo(String userId, String firstName, String lastName, String mobile, String email) {
+    private void saveTenantInfo(String userId, String firstName, String lastName, String username, String mobile, String email) {
         // Create a HashMap to store the user data
         HashMap<String, Object> tenantInfo = new HashMap<>();
         tenantInfo.put("firstName", firstName);
         tenantInfo.put("lastName", lastName);
+        tenantInfo.put("username", username);
         tenantInfo.put("mobile", mobile);
         tenantInfo.put("email", email);
 

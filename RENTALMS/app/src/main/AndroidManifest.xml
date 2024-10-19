@@ -60,6 +60,9 @@
         <activity
             android:name=".Login"
             android:exported="true" />
+        <activity
+            android:name=".LandlordAddProperty"
+            android:exported="true" />
     </application>
 
 </manifest>

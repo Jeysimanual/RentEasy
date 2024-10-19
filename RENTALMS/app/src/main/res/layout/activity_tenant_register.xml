@@ -65,6 +65,29 @@
                 android:textSize="15dp" />
 
             <TextView
+                android:id="@+id/TenantUN"
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Username"
+                android:textColor="#118EF6"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/Tenantusername"
+                android:layout_width="325dp"
+                android:layout_height="39dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/btn_background"
+                android:ems="10"
+                android:hint="  Juan"
+                android:inputType="text"
+                android:textSize="15dp" />
+
+
+            <TextView
                 android:id="@+id/tenantM"
                 android:layout_width="326dp"
                 android:layout_height="wrap_content"
@@ -155,6 +178,30 @@
                 android:hint="  Retype your password here"
                 android:inputType="textPassword"
                 android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/AccountType"
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:text="Account Type"
+                android:textColor="#118EF6"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/accountType"
+                android:layout_width="326dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:text="Tenant"
+                android:textColor="#118EF6"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
 
             <TextView
                 android:layout_width="325dp"
