@@ -109,6 +109,7 @@ public class TenantRegister extends AppCompatActivity {
         tenantInfo.put("mobile", mobile);
         tenantInfo.put("email", email);
 
+        tenantInfo.put("accountType", "Tenant");
         // Add a new document to the "Tenants" collection with the user's ID as the document ID
         DocumentReference tenantRef = tenantDatabase.collection("Tenants").document(userId);
 

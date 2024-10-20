@@ -75,6 +75,7 @@
 
             <!-- My Account -->
             <LinearLayout
+                android:id="@+id/myAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
@@ -231,6 +232,6 @@
         app:itemIconSize="30dp"
         app:itemIconTint="@drawable/item_selector"
         app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/landlord_bottom_menu" />
+        app:menu="@menu/tenant_bottom_menu" />
 
 </RelativeLayout>

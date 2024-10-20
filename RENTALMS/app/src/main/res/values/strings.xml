@@ -2,5 +2,7 @@
     <string name="app_name">RENTALMS</string>
     <string name="u_text"><u>Login here</u></string>
     <string name="u_text1"><u>Create Account</u></string>
+    <string name="profile_picture" />
+    <string name="back_button" />
 
 </resources>

@@ -3,6 +3,7 @@ package com.example.rentalms;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ public class TenantMore extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView tenantUsername, tenantEmail;
     FirebaseFirestore firestore;
+    LinearLayout myAccount; // Declare LinearLayout for My Account
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,13 @@ public class TenantMore extends AppCompatActivity {
                     });
         }
 
+        // Initialize the LinearLayout for "My Account" and set the click listener
+        myAccount = findViewById(R.id.myAccount);
+        myAccount.setOnClickListener(view -> {
+            // Navigate to TenantProfile activity when "My Account" is clicked
+            Intent intent = new Intent(TenantMore.this, TenantProfile.class);
+            startActivity(intent);
+        });
 
         // Initialize BottomNavigationView and set the selected item to "More"
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);

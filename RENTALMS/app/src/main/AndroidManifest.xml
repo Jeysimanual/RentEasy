@@ -63,6 +63,9 @@
         <activity
             android:name=".LandlordAddProperty"
             android:exported="true" />
+        <activity
+            android:name=".TenantProfile"
+            android:exported="true" />
     </application>
 
 </manifest>
