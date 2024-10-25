@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.google.gms.google.services)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.rentalms"
-        minSdk = 33
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -40,15 +40,15 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
 
     // Firebase Firestore
-    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-firestore:25.1.0")
 
     // Firebase Realtime Database
     implementation("com.google.firebase:firebase-database")
-
+    implementation("com.google.firebase:firebase-storage")
 
     // Google Play Services for Authentication
-    implementation("com.google.android.gms:play-services-base:18.1.0")
-    implementation("com.google.android.gms:play-services-auth:20.5.0")
+    implementation("com.google.android.gms:play-services-base")
+    implementation("com.google.android.gms:play-services-auth:20.0.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

@@ -7,6 +7,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,12 +16,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 public class LandlordPage extends AppCompatActivity {
 
     // Firebase Auth and Firestore instances
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private RecyclerView recyclerView;
+    private PropertyAdapter propertyAdapter;
+    private ArrayList<Property> propertyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,13 @@ public class LandlordPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        // Initialize RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewProperties);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        propertyList = new ArrayList<>();
+        propertyAdapter = new PropertyAdapter(propertyList);
+        recyclerView.setAdapter(propertyAdapter);
+
         // Get the currently logged-in user
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -37,24 +53,17 @@ public class LandlordPage extends AppCompatActivity {
         TextView usernameTextView = findViewById(R.id.landlordusername);
 
         if (currentUser != null) {
-            // Get the user ID from the currently logged-in user
             String userId = currentUser.getUid();
-
-            // Reference the user document in Firestore
             DocumentReference userRef = db.collection("Landlords").document(userId);
 
-            // Fetch the username from Firestore
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        // Get the username from Firestore
                         String landlordUsername = document.getString("username");
                         if (landlordUsername != null) {
-                            // Set the username in the TextView directly
                             usernameTextView.setText(landlordUsername);
                         } else {
-                            // Default text if the username is missing
                             usernameTextView.setText("Username not found");
                         }
                     } else {
@@ -64,20 +73,35 @@ public class LandlordPage extends AppCompatActivity {
                     Toast.makeText(LandlordPage.this, "Failed to fetch username", Toast.LENGTH_SHORT).show();
                 }
             });
+
+            userRef.collection("properties").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        for (DocumentSnapshot document : querySnapshot) {
+                            Property property = document.toObject(Property.class);
+                            propertyList.add(property);
+                        }
+                        propertyAdapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(LandlordPage.this, "No properties found", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(LandlordPage.this, "Failed to load properties", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
-        // Set up the ImageButton click listener to navigate to the LandlordAddProperty page
         ImageButton addPropertyButton = findViewById(R.id.add_property);
         addPropertyButton.setOnClickListener(v -> {
-            // Create an Intent to navigate to LandlordAddProperty
             Intent intent = new Intent(LandlordPage.this, LandlordAddProperty.class);
-            // Pass the landlord's user ID to the next activity if needed
-            intent.putExtra("userId", currentUser.getUid());
+            intent.putExtra("landlordId", currentUser.getUid());
+            intent.putExtra("username", usernameTextView.getText().toString());
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
-        // Set up BottomNavigationView navigation
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.btn_home);
 
@@ -106,4 +130,5 @@ public class LandlordPage extends AppCompatActivity {
             return false;
         });
     }
+
 }

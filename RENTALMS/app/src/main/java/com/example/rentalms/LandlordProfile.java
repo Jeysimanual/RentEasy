@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class TenantProfile extends AppCompatActivity {
+public class LandlordProfile extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private FirebaseAuth auth;
@@ -24,25 +24,25 @@ public class TenantProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tenant_profile);
+        setContentView(R.layout.activity_landlord_profile);
 
         // Initialize Firestore and FirebaseAuth
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
         // Initialize TextViews from the layout
-        firstNameTextView = findViewById(R.id.Tfirstname);
-        lastNameTextView = findViewById(R.id.Tlastname);
-        emailTextView = findViewById(R.id.TEmail);
-        mobileTextView = findViewById(R.id.TMobile);
-        accountTypeTextView = findViewById(R.id.Taccounttype);
+        firstNameTextView = findViewById(R.id.Lfirstname);
+        lastNameTextView = findViewById(R.id.Llastname);
+        emailTextView = findViewById(R.id.LEmail);
+        mobileTextView = findViewById(R.id.LMobile);
+        accountTypeTextView = findViewById(R.id.Laccounttype);
         welcomeTextView = findViewById(R.id.welcome_text); // Initialize the welcome TextView
         backButton = findViewById(R.id.backbtn); // Initialize the back button TextView
 
         // Set click listener for the back button
         backButton.setOnClickListener(v -> {
             // Start TenantMore activity
-            Intent intent = new Intent(TenantProfile.this, TenantMore.class);
+            Intent intent = new Intent(LandlordProfile.this, LandlordMore.class);
             startActivity(intent);
             finish(); // Optional: Finish current activity if you don't want to return to it
         });
@@ -57,7 +57,7 @@ public class TenantProfile extends AppCompatActivity {
 
         if (userId != null) {
             // Fetch the tenant's profile from Firestore using their UID
-            db.collection("Tenants").document(userId)
+            db.collection("Landlords").document(userId)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -90,15 +90,15 @@ public class TenantProfile extends AppCompatActivity {
                                 mobileTextView.setText(mobile != null ? mobile : "N/A");
                                 accountTypeTextView.setText(accountType != null ? accountType : "N/A");
                             } else {
-                                Toast.makeText(TenantProfile.this, "No such tenant profile found!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LandlordProfile.this, "No such tenant profile found!", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(TenantProfile.this, "Failed to fetch profile data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LandlordProfile.this, "Failed to fetch profile data", Toast.LENGTH_SHORT).show();
                         }
                     });
         } else {
             // Handle the case when the user is not logged in
-            Toast.makeText(TenantProfile.this, "User not logged in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LandlordProfile.this, "User not logged in", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -69,18 +69,78 @@ public class TenantRegister extends AppCompatActivity {
         String password = tenantPassword.getText().toString().trim();
         String retypePassword = tenantRetypePassword.getText().toString().trim();
 
-        // Validate input
-        if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(mobile)
-                || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(TenantRegister.this, "All fields are required", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        boolean isValid = true; // Flag to check if all fields are valid
 
+        // Validate input fields and show error messages if necessary
+        if (TextUtils.isEmpty(firstName)) {
+            tenantFirstName.setError("First name is required");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(lastName)) {
+            tenantLastName.setError("Last name is required");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(username)) {
+            tenantusername.setError("Username is required");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(mobile)) {
+            tenantMobile.setError("Mobile number is required");
+            isValid = false;
+        } else if (mobile.length() != 11) {  // Check if mobile number is exactly 11 digits
+            tenantMobile.setError("Mobile number must be 11 digits");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(email)) {
+            tenantEmail.setError("Email is required");
+            isValid = false;
+        }
+        else if (!email.contains("@")) {  // Check if email contains '@'
+            tenantEmail.setError("Please enter a valid email address containing '@'");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(password)) {
+            tenantPassword.setError("Password is required");
+            isValid = false;
+        }
+        else if (password.length() < 6) {  // Check if password is at least 6 characters long
+            tenantPassword.setError("Password should be at least 6 characters");
+            isValid = false;
+        } else if (TextUtils.isDigitsOnly(password)) {  // Check if password is only numbers
+            tenantPassword.setError("Password should not be only numbers");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(retypePassword)) {
+            tenantRetypePassword.setError("Please retype your password");
+            isValid = false;
+        }
         if (!password.equals(retypePassword)) {
-            Toast.makeText(TenantRegister.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-            return;
+            tenantRetypePassword.setError("Passwords do not match");
+            isValid = false;
         }
 
+        // If any field is invalid, return early
+        if (!isValid) {
+            return; // Stop further execution if validation fails
+        }
+
+        // Check if the mobile number is already registered
+        tenantDatabase.collection("Tenants")
+                .whereEqualTo("mobile", mobile)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        // Mobile number already exists
+                        tenantMobile.setError("This mobile number is already in use");
+                    } else {
+                        // Mobile number does not exist, proceed with account creation
+                        createFirebaseAccount(email, password, firstName, lastName, username, mobile);
+                    }
+                });
+    }
+
+    // Function to create a Firebase account and save tenant info
+    private void createFirebaseAccount(String email, String password, String firstName, String lastName, String username, String mobile) {
         // Create account in Firebase Authentication
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -109,7 +169,6 @@ public class TenantRegister extends AppCompatActivity {
         tenantInfo.put("mobile", mobile);
         tenantInfo.put("email", email);
 
-        tenantInfo.put("accountType", "Tenant");
         // Add a new document to the "Tenants" collection with the user's ID as the document ID
         DocumentReference tenantRef = tenantDatabase.collection("Tenants").document(userId);
 

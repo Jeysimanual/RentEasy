@@ -1,5 +1,6 @@
 package com.example.rentalms;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -22,6 +23,7 @@ public class TenantMore extends AppCompatActivity {
     FirebaseFirestore firestore;
     LinearLayout myAccount; // Declare LinearLayout for My Account
 
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

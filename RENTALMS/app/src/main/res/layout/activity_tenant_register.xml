@@ -20,11 +20,15 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/design"/>
+
             <TextView
                 android:id="@+id/tenantFN"
                 android:layout_width="326dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
                 android:layout_marginBottom="5dp"
                 android:text="Firstname"
                 android:textColor="#118EF6"
@@ -35,8 +39,8 @@
                 android:id="@+id/Tenantfirstname"
                 android:layout_width="325dp"
                 android:layout_height="39dp"
-                android:layout_marginBottom="15dp"
                 android:background="@drawable/btn_background"
+                android:layout_marginBottom="15sp"
                 android:ems="10"
                 android:hint="  Juan"
                 android:inputType="text"
@@ -57,12 +61,13 @@
                 android:layout_width="325dp"
                 android:layout_height="39dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="15sp"
                 android:background="@drawable/btn_background"
                 android:ems="10"
                 android:hint="  Dela Cruz"
                 android:inputType="text"
                 android:textSize="15dp" />
+
 
             <TextView
                 android:id="@+id/TenantUN"
@@ -103,12 +108,13 @@
                 android:layout_width="325dp"
                 android:layout_height="39dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="15sp"
                 android:background="@drawable/btn_background"
                 android:ems="10"
                 android:hint="  09381978519"
                 android:inputType="number"
                 android:textSize="15dp" />
+
 
             <TextView
                 android:id="@+id/tenantE"
@@ -126,12 +132,13 @@
                 android:layout_width="325dp"
                 android:layout_height="39dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="15sp"
                 android:background="@drawable/btn_background"
                 android:ems="10"
                 android:hint="  Type your email address here"
                 android:inputType="text"
                 android:textSize="15dp" />
+
 
             <TextView
                 android:id="@+id/tenantP"
@@ -149,12 +156,14 @@
                 android:layout_width="325dp"
                 android:layout_height="39dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="15sp"
                 android:background="@drawable/btn_background"
                 android:ems="10"
                 android:hint="  Type your strong password here"
                 android:inputType="textPassword"
                 android:textSize="15dp" />
+
+
 
             <TextView
                 android:id="@+id/tenantRP"
@@ -172,12 +181,13 @@
                 android:layout_width="325dp"
                 android:layout_height="39dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="15sp"
                 android:background="@drawable/btn_background"
                 android:ems="10"
                 android:hint="  Retype your password here"
                 android:inputType="textPassword"
                 android:textSize="15dp" />
+
 
             <TextView
                 android:id="@+id/AccountType"

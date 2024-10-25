@@ -53,7 +53,7 @@
         android:background="@drawable/btn_background"
         android:textSize="15dp"
         android:ems="10"
-        android:hint="  Type your strong here"
+        android:hint="  Type your password here"
         android:inputType="textPassword"/>
 
     <TextView

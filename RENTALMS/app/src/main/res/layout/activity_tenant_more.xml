@@ -232,6 +232,6 @@
         app:itemIconSize="30dp"
         app:itemIconTint="@drawable/item_selector"
         app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/tenant_bottom_menu" />
+        app:menu="@menu/landlord_bottom_menu" />
 
 </RelativeLayout>

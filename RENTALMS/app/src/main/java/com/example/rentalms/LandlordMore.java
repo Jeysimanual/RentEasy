@@ -1,8 +1,10 @@
 package com.example.rentalms;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,10 @@ public class LandlordMore extends AppCompatActivity {
     TextView landlordUsername, landlordEmail;
     FirebaseFirestore firestore;
 
+    LinearLayout MyAccount; // Declare LinearLayout for My Account
+
+
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +67,14 @@ public class LandlordMore extends AppCompatActivity {
                         }
                     });
         }
+
+        // Initialize the LinearLayout for "My Account" and set the click listener
+        MyAccount = findViewById(R.id.MyAccount);
+        MyAccount.setOnClickListener(view -> {
+            // Navigate to TenantProfile activity when "My Account" is clicked
+            Intent intent = new Intent(LandlordMore.this, LandlordProfile.class);
+            startActivity(intent);
+        });
 
         // Initialize BottomNavigationView and set the selected item to "More"
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);

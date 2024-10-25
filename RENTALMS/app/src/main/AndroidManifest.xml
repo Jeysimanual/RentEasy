@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,7 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RENTALMS"
-        tools:targetApi="31">
+        tools:targetApi="33">
+        <activity
+            android:name=".PropertyAdapter"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".CreateAccount"
             android:exported="true">
@@ -64,7 +73,13 @@
             android:name=".LandlordAddProperty"
             android:exported="true" />
         <activity
+            android:name=".LandlordProfile"
+            android:exported="true" />
+        <activity
             android:name=".TenantProfile"
+            android:exported="true" />
+        <activity
+            android:name=".ForgetPassword"
             android:exported="true" />
     </application>
 

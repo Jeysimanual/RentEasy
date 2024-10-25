@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class LanlordRegister extends AppCompatActivity {
 
     // UI components
-    EditText landlordFirstName, landlordLastName,landlordusername, landlordMobile, landlordEmail, landlordPassword, landlordRetypePassword;
+    EditText landlordFirstName, landlordLastName, landlordusername, landlordMobile, landlordEmail, landlordPassword, landlordRetypePassword;
     TextView landlordlogin;
     Button createAccountButton;
 
@@ -69,18 +69,78 @@ public class LanlordRegister extends AppCompatActivity {
         String password = landlordPassword.getText().toString().trim();
         String retypePassword = landlordRetypePassword.getText().toString().trim();
 
-        // Validate input
-        if (TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(mobile)
-                || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(LanlordRegister.this, "All fields are required", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        boolean isValid = true; // Flag to check if all fields are valid
 
+        // Validate input fields and show error messages if necessary
+        if (TextUtils.isEmpty(firstName)) {
+            landlordFirstName.setError("First name is required");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(lastName)) {
+            landlordLastName.setError("Last name is required");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(username)) {
+            landlordusername.setError("Username is required");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(mobile)) {
+            landlordMobile.setError("Mobile number is required");
+            isValid = false;
+        } else if (mobile.length() != 11) {  // Check if mobile number is exactly 11 digits
+            landlordMobile.setError("Mobile number must be 11 digits");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(email)) {
+            landlordEmail.setError("Email is required");
+            isValid = false;
+        } else if (!email.contains("@")) {  // Check if email contains '@'
+            landlordEmail.setError("Please enter a valid email address containing '@'");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(password)) {
+            landlordPassword.setError("Password is required");
+            isValid = false;
+        }
+        else if (password.length() < 6) {  // Check if password is at least 6 characters long
+            landlordPassword.setError("Password should be at least 6 characters");
+            isValid = false;
+        } else if (TextUtils.isDigitsOnly(password)) {  // Check if password is only numbers
+            landlordPassword.setError("Password should not be only numbers");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(retypePassword)) {
+            landlordRetypePassword.setError("Please retype your password");
+            isValid = false;
+        }
         if (!password.equals(retypePassword)) {
-            Toast.makeText(LanlordRegister.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-            return;
+            landlordRetypePassword.setError("Passwords do not match");
+            isValid = false;
         }
 
+        // If any field is invalid, return early
+        if (!isValid) {
+            return; // Stop further execution if validation fails
+        }
+
+
+        // Check if the mobile number is already registered
+        landlordDatabase.collection("Landlords")
+                .whereEqualTo("mobile", mobile)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        // Mobile number already exists
+                        landlordMobile.setError("This mobile number is already in use");
+                    } else {
+                        // Mobile number does not exist, proceed with account creation
+                        createFirebaseAccount(email, password, firstName, lastName, username, mobile);
+                    }
+                });
+    }
+
+    // Function to create a Firebase account and save landlord info
+    private void createFirebaseAccount(String email, String password, String firstName, String lastName, String username, String mobile) {
         // Create account in Firebase Authentication
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -98,8 +158,6 @@ public class LanlordRegister extends AppCompatActivity {
             }
         });
     }
-
-    // Function to save landlord information in Firestore Database
     // Function to save landlord information in Firestore Database
     private void saveLandlordInfo(String userId, String firstName, String lastName, String username, String mobile, String email) {
         // Create a HashMap to store the user data

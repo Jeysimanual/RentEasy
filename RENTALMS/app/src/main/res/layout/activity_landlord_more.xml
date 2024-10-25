@@ -75,6 +75,7 @@
 
                 <!-- My Account -->
                 <LinearLayout
+                    android:id="@+id/MyAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:attr/selectableItemBackground"
@@ -138,7 +139,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/baseline_home"
+                        android:src="@drawable/baseline_favorite"
                         android:tint="#1976D2"
                         tools:ignore="UseAppTint" />
 
@@ -146,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="My Property"
+                        android:text="Favorites"
                         android:textColor="#000000"
                         android:textSize="16sp" />
                 </LinearLayout>
