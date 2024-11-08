@@ -57,46 +57,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <!-- Label for Province -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Province"
-            android:textColor="@color/black"
-            android:layout_marginTop="16dp" />
+                <!-- Label for Province -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Province"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp" />
 
-        <Spinner
-            android:id="@+id/province_spinner"
-            android:layout_width="130dp"
-            android:layout_height="39dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/spinner_customize" />
-        </LinearLayout>
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-        android:layout_marginLeft="39dp">
-        <!-- Label for City -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="City"
-            android:textColor="@color/black"
-            android:layout_marginTop="16dp" />
+                <Spinner
+                    android:id="@+id/province_spinner"
+                    android:layout_width="130dp"
+                    android:layout_height="39dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/spinner_customize" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="39dp">
+                <!-- Label for City -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="City"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="16dp" />
 
-        <Spinner
-            android:id="@+id/city_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/spinner_customize"/>
-        </LinearLayout>
+                <Spinner
+                    android:id="@+id/city_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="39dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/spinner_customize"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -198,7 +198,7 @@
             android:contentDescription="Room Interior Image"
             android:scaleType="centerCrop"
             android:background="@drawable/default_image"
-             />
+            />
 
         <!-- Label and Upload button for Bathroom and Showers -->
         <TextView

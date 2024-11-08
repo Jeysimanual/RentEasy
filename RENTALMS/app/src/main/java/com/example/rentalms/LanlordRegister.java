@@ -60,6 +60,7 @@ public class LanlordRegister extends AppCompatActivity {
     }
 
     // Function to create a new landlord account
+    // Function to create a new landlord account
     private void createAccount() {
         String firstName = landlordFirstName.getText().toString().trim();
         String lastName = landlordLastName.getText().toString().trim();
@@ -71,24 +72,39 @@ public class LanlordRegister extends AppCompatActivity {
 
         boolean isValid = true; // Flag to check if all fields are valid
 
-        // Validate input fields and show error messages if necessary
+        // Regular expression to allow only one space between words, no leading or trailing spaces
+        String nameRegex = "^[A-Za-z]+( [A-Za-z]+)*$"; // Allows letters only, with optional single spaces in between
+
+// Validate first name and last name using the regex
         if (TextUtils.isEmpty(firstName)) {
             landlordFirstName.setError("First name is required");
             isValid = false;
+        } else if (!firstName.matches(nameRegex)) {
+            landlordFirstName.setError("Invalid format: avoid extra spaces in the firstname");
+            isValid = false;
         }
+
         if (TextUtils.isEmpty(lastName)) {
             landlordLastName.setError("Last name is required");
             isValid = false;
+        } else if (!lastName.matches(nameRegex)) {
+            landlordLastName.setError("Invalid format: avoid extra spaces in the lastname");
+            isValid = false;
         }
+
         if (TextUtils.isEmpty(username)) {
             landlordusername.setError("Username is required");
             isValid = false;
+        } else if (!username.matches(nameRegex)) {
+            landlordusername.setError("Invalid format: avoid extra spaces in the username");
+            isValid = false;
         }
+
         if (TextUtils.isEmpty(mobile)) {
             landlordMobile.setError("Mobile number is required");
             isValid = false;
-        } else if (mobile.length() != 11) {  // Check if mobile number is exactly 11 digits
-            landlordMobile.setError("Mobile number must be 11 digits");
+        } else if (!mobile.startsWith("09") || mobile.length() != 11) {  // Check if mobile number starts with 09 and is exactly 11 digits
+            landlordMobile.setError("Mobile number must start with '09' and be 11 digits long");
             isValid = false;
         }
         if (TextUtils.isEmpty(email)) {
@@ -97,18 +113,26 @@ public class LanlordRegister extends AppCompatActivity {
         } else if (!email.contains("@")) {  // Check if email contains '@'
             landlordEmail.setError("Please enter a valid email address containing '@'");
             isValid = false;
+        }  else if (!email.matches(nameRegex)) {
+            landlordEmail.setError("Invalid format: avoid spaces in the email");
+            isValid = false;
         }
+
+        // Password validation: at least 6 characters, first letter uppercase, and not only digits
         if (TextUtils.isEmpty(password)) {
             landlordPassword.setError("Password is required");
             isValid = false;
-        }
-        else if (password.length() < 6) {  // Check if password is at least 6 characters long
+        } else if (password.length() < 6) {  // Check if password is at least 6 characters long
             landlordPassword.setError("Password should be at least 6 characters");
             isValid = false;
         } else if (TextUtils.isDigitsOnly(password)) {  // Check if password is only numbers
             landlordPassword.setError("Password should not be only numbers");
             isValid = false;
+        } else if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*")) {  // Check if password has both uppercase and lowercase letters
+            landlordPassword.setError("Password must contain both Uppercase and lowercase letters");
+            isValid = false;
         }
+
         if (TextUtils.isEmpty(retypePassword)) {
             landlordRetypePassword.setError("Please retype your password");
             isValid = false;
@@ -120,24 +144,23 @@ public class LanlordRegister extends AppCompatActivity {
 
         // If any field is invalid, return early
         if (!isValid) {
+            Toast.makeText(this, "Please correct the highlighted fields", Toast.LENGTH_LONG).show();
             return; // Stop further execution if validation fails
         }
 
-
-        // Check if the mobile number is already registered
+        // Continue with account creation if validation succeeds
         landlordDatabase.collection("Landlords")
                 .whereEqualTo("mobile", mobile)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        // Mobile number already exists
                         landlordMobile.setError("This mobile number is already in use");
                     } else {
-                        // Mobile number does not exist, proceed with account creation
                         createFirebaseAccount(email, password, firstName, lastName, username, mobile);
                     }
                 });
     }
+
 
     // Function to create a Firebase account and save landlord info
     private void createFirebaseAccount(String email, String password, String firstName, String lastName, String username, String mobile) {

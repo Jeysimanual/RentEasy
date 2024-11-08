@@ -24,7 +24,7 @@
             android:layout_weight="1"
             android:queryHint="Search properties"
             android:iconifiedByDefault="false"
-             />
+            />
 
     </LinearLayout>
 
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/searchFilterLayout"
-       >
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tenantPropertyRecyclerView"

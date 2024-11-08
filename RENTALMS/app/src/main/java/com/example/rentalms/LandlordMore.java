@@ -25,6 +25,7 @@ public class LandlordMore extends AppCompatActivity {
     FirebaseFirestore firestore;
 
     LinearLayout MyAccount; // Declare LinearLayout for My Account
+    LinearLayout changepass;
 
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
@@ -75,6 +76,13 @@ public class LandlordMore extends AppCompatActivity {
             Intent intent = new Intent(LandlordMore.this, LandlordProfile.class);
             startActivity(intent);
         });
+        // Initialize LinearLayout for "Change Password" and set click listener
+        changepass = findViewById(R.id.changepass);
+        changepass.setOnClickListener(view -> {
+            // Navigate to ChangePassword activity when "Change Password" is clicked
+            Intent intent = new Intent(LandlordMore.this, ChangePassword.class);
+            startActivity(intent);
+        });
 
         // Initialize BottomNavigationView and set the selected item to "More"
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
@@ -115,7 +123,7 @@ public class LandlordMore extends AppCompatActivity {
             mAuth.signOut();
 
             // Redirect to the CreateAccount activity
-            Intent intent = new Intent(LandlordMore.this, CreateAccount.class);
+            Intent intent = new Intent(LandlordMore.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear activity stack
             startActivity(intent);
             finish();  // Finish current activity to prevent back navigation to this screen

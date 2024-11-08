@@ -9,19 +9,12 @@
     android:background="#f9f9f9"
     tools:context=".LandlordLogin">
 
-    <ImageView
-        android:layout_width="305dp"
-        android:layout_height="180dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20sp"
-        android:background="@drawable/design" />
-
     <TextView
         android:id="@+id/landlordEmail"
-        android:layout_width="305dp"
+        android:layout_width="326dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="150dp"
         android:layout_marginBottom="5dp"
         android:text="Email Address"
         android:textStyle="bold"
@@ -30,11 +23,11 @@
 
     <EditText
         android:id="@+id/landlordemail"
-        android:layout_width="305dp"
+        android:layout_width="325dp"
         android:layout_height="39dp"
         android:layout_gravity="center"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/input_box"
+        android:background="@drawable/btn_background"
         android:ems="10"
         android:hint="  Type your email address here"
         android:inputType="text"
@@ -43,7 +36,7 @@
     <TextView
         android:id="@+id/landlordpassword"
         android:layout_gravity="center"
-        android:layout_width="305dp"
+        android:layout_width="326dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:text="Password"
@@ -53,14 +46,15 @@
 
     <EditText
         android:id="@+id/landlordPassword"
-        android:layout_width="305dp"
+        android:layout_width="325dp"
         android:layout_height="39dp"
         android:layout_gravity="center"
-        android:background="@drawable/input_box"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/btn_background"
+        android:textSize="15dp"
         android:ems="10"
         android:hint="  Type your password here"
-        android:inputType="textPassword"
-        android:textSize="15dp" />
+        android:inputType="textPassword"/>
 
     <TextView
         android:id="@+id/landlordFP"
@@ -75,7 +69,7 @@
 
     <Button
         android:id="@+id/landlordloginbtn"
-        android:layout_width="305dp"
+        android:layout_width="325dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
@@ -86,6 +80,15 @@
         android:textSize="15dp"
         android:textStyle="bold"
         tools:ignore="OnClick" />
+
+    <Button
+        android:layout_width="325dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_background"
+        android:textAlignment="center"
+        android:text="Continue with Google"/>
 
     <LinearLayout
         android:id="@+id/animation"
