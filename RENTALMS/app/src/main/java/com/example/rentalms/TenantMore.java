@@ -39,6 +39,7 @@ public class TenantMore extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
 
+        String tenantId = getIntent().getStringExtra("tenantId");
         // Get the current user
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -100,17 +101,23 @@ public class TenantMore extends AppCompatActivity {
 
             // Navigation handling
             if (itemId == R.id.bottom_search) {
-                startActivity(new Intent(getApplicationContext(), TenantPage.class));
+                Intent intent = new Intent(TenantMore.this, TenantPage.class);
+                intent.putExtra("tenantId", tenantId);
+                startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
                 return true;
             } else if (itemId == R.id.bottom_favorite) {
-                startActivity(new Intent(getApplicationContext(), TenantFavorite.class));
+                Intent intent = new Intent(TenantMore.this, TenantFavorite.class);
+                intent.putExtra("tenantId", tenantId);
+                startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
                 return true;
             } else if (itemId == R.id.bottom_chat) {
-                startActivity(new Intent(getApplicationContext(), TenantChat.class));
+                Intent intent = new Intent(TenantMore.this, TenantChat.class);
+                intent.putExtra("tenantId", tenantId);
+                startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
                 return true;

@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:textColor="@color/black"
         android:layout_marginBottom="8dp" />
 
     <EditText
@@ -23,9 +24,10 @@
 
     <Button
         android:id="@+id/sendButton"
-        android:layout_width="wrap_content"
+        android:layout_width="118dp"
         android:layout_height="wrap_content"
-        android:text="Send Message"
         android:layout_gravity="end"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/input_boxer"
+        android:text="Send Message" />
 </LinearLayout>

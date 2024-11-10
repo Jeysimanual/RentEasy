@@ -43,6 +43,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         String province = getIntent().getStringExtra("province");
         String price = getIntent().getStringExtra("price");
         String type = getIntent().getStringExtra("type");
+        String paymentPeriod = getIntent().getStringExtra("paymentPeriod"); // Retrieve paymentPeriod
         String exteriorImageUrl = getIntent().getStringExtra("exteriorImageUrl");
         String interiorImageUrl = getIntent().getStringExtra("interiorImageUrl");
         String userId = getIntent().getStringExtra("userId");
@@ -52,11 +53,11 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         barangayTextView.setText(barangay);
         addressTextView.setText(address);
         cityTextView.setText(city);
-        priceTextView.setText("Price: " + price);
+        priceTextView.setText("Price:" + price + " " + paymentPeriod); // Set price with payment period
         typeTextView.setText("Type: " + type);
 
         // Image URLs list
-        List<String> imageUrls = Arrays.asList(exteriorImageUrl, interiorImageUrl);
+        List<String> imageUrls = Arrays.asList(interiorImageUrl, exteriorImageUrl);
 
         // Set up the image slider adapter
         ImageSliderAdapter adapter = new ImageSliderAdapter(this, imageUrls);
@@ -67,12 +68,13 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                 (tab, position) -> {
                     // No need to set text or icon as we just want dots
                 }).attach();
+
         // Add inquire section fragment
-        addInquireSectionFragment(propertyName, type, barangay, address, city, province, price, userId);
+        addInquireSectionFragment(propertyName, type, barangay, address, city, province, price, paymentPeriod, userId);
     }
 
     // Method to show the overlay fragment
-    public void showInquireOverlayFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String userId) {
+    public void showInquireOverlayFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod, String userId) {
         InquireOverlayFragment inquireOverlayFragment = new InquireOverlayFragment();
         Bundle bundle = new Bundle();
         bundle.putString("propertyName", propertyName);
@@ -82,6 +84,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         bundle.putString("city", city);
         bundle.putString("province", province);
         bundle.putString("price", price);
+        bundle.putString("paymentPeriod", paymentPeriod); // Pass paymentPeriod to overlay fragment
         bundle.putString("userId", userId);
         inquireOverlayFragment.setArguments(bundle);
 
@@ -92,7 +95,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void addInquireSectionFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String userId) {
+    private void addInquireSectionFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod, String userId) {
         InquireSectionFragment inquireSectionFragment = new InquireSectionFragment();
 
         // Set up the bundle with property data
@@ -104,6 +107,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         bundle.putString("city", city);
         bundle.putString("province", province);
         bundle.putString("price", price);
+        bundle.putString("paymentPeriod", paymentPeriod); // Add paymentPeriod to bundle
         bundle.putString("userId", userId);
 
         inquireSectionFragment.setArguments(bundle);
@@ -112,6 +116,5 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.inquire_section_container, inquireSectionFragment)
                 .commit();
-
     }
 }

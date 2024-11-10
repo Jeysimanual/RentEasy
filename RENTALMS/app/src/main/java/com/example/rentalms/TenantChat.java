@@ -11,7 +11,7 @@ public class TenantChat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenant_chat);  // Assuming this is your layout for the chat page
-
+        String tenantId = getIntent().getStringExtra("tenantId");
         // Initialize BottomNavigationView and set the selected item to "Chat"
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.bottom_chat);  // Set the selected item to "Chat"
@@ -22,14 +22,18 @@ public class TenantChat extends AppCompatActivity {
 
             // Handle the search button click (navigate to TenantPage)
             if (itemId == R.id.bottom_search) {
-                startActivity(new Intent(getApplicationContext(), TenantPage.class));
+                Intent intent = new Intent(getApplicationContext(), TenantPage.class);
+                intent.putExtra("tenantId", tenantId);
+                startActivity(intent);
                 overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);  // Animation for navigation
                 finish();
                 return true;
 
                 // Handle the favorite button click (navigate to TenantFavorite)
             } else if (itemId == R.id.bottom_favorite) {
-                startActivity(new Intent(getApplicationContext(), TenantFavorite.class));
+                Intent intent = new Intent(getApplicationContext(), TenantFavorite.class);
+                intent.putExtra("tenantId", tenantId);
+                startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
                 return true;
@@ -40,7 +44,9 @@ public class TenantChat extends AppCompatActivity {
 
                 // Handle the more button click (navigate to TenantMore)
             } else if (itemId == R.id.bottom_more) {
-                startActivity(new Intent(getApplicationContext(), TenantMore.class));
+                Intent intent = new Intent(getApplicationContext(), TenantMore.class);
+                intent.putExtra("tenantId", tenantId);
+                startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
                 return true;

@@ -1,5 +1,3 @@
-// InquireSectionFragment.java
-
 package com.example.rentalms;
 
 import android.os.Bundle;
@@ -20,20 +18,18 @@ public class InquireSectionFragment extends Fragment {
 
     private String propertyName;
     private String type;
-
     private String barangay;
-
     private String address;
     private String city;
     private String province;
     private String price;
+    private String paymentPeriod;
     private String userId;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inquire_section, container, false);
-
 
         if (getArguments() != null) {
             propertyName = getArguments().getString("propertyName", "Property");
@@ -43,19 +39,19 @@ public class InquireSectionFragment extends Fragment {
             city = getArguments().getString("city", "City");
             province = getArguments().getString("province", "Province");
             price = getArguments().getString("price", "Price");
+            paymentPeriod = getArguments().getString("paymentPeriod", "Period"); // Retrieve paymentPeriod
             userId = getArguments().getString("userId", "UserId");
         }
 
-
         priceTextView = view.findViewById(R.id.priceTextView);
 
-        // Retrieve data from the Intent
-        String price = getArguments().getString("price");
-        priceTextView.setText("Price: " + price);
+        // Set the price with payment period in priceTextView
+        priceTextView.setText("Price:" + price + " " + paymentPeriod);
 
         inquireButton = view.findViewById(R.id.inquireButton);
         inquireButton.setOnClickListener(v -> {
-            ((PropertyDetailsActivity) getActivity()).showInquireOverlayFragment(propertyName, type, barangay, address, city, province, price, userId);
+            ((PropertyDetailsActivity) getActivity()).showInquireOverlayFragment(
+                    propertyName, type, barangay, address, city, province, price, paymentPeriod, userId);
         });
 
         return view;

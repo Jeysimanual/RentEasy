@@ -48,13 +48,29 @@ public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAd
         Property property = propertyList.get(position);
         holder.propertyNameTextView.setText(property.getPropertyName());
         holder.cityTextView.setText(property.getCity());
-        holder.priceTextView.setText("Price: " + property.getPrice());
         holder.propertyTypeTextView.setText("Type: " + property.getType());
         holder.barangayTextView.setText(property.getBarangay());
         holder.addressTextView.setText(property.getAddress());
 
+        // Get the price, ensuring there is only one ₱ sign
+        String price = property.getPrice();  // Assuming price is already in the format ₱2000
+        if (price != null && !price.startsWith("₱")) {
+            price = "₱" + price;  // Prepend ₱ if it's missing
+        }
+
+        // Get payment period (Monthly or Yearly)
+        String paymentPeriod = property.getPaymentPeriod();
+
+        // If there's a payment period, append it to the price
+        if (paymentPeriod != null && !paymentPeriod.isEmpty()) {
+            holder.priceTextView.setText(price + " " + paymentPeriod);
+        } else {
+            holder.priceTextView.setText(price);  // Just display the price if no payment period
+        }
+
+
         Glide.with(context)
-                .load(property.getExteriorImageUrl())
+                .load(property.getInteriorImageUrl())
                 .placeholder(R.drawable.default_image)
                 .into(holder.propertyImageView);
 
@@ -87,6 +103,7 @@ public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAd
             intent.putExtra("interiorImageUrl", property.getInteriorImageUrl());
             intent.putExtra("barangay", property.getBarangay());
             intent.putExtra("address", property.getAddress());
+            intent.putExtra("paymentPeriod", property.getPaymentPeriod());
             context.startActivity(intent);
         });
     }
