@@ -118,7 +118,8 @@ public class Login extends AppCompatActivity {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     Intent intent = new Intent(Login.this, TenantPage.class);
-                    intent.putExtra("userId", userId);
+                    intent.putExtra("tenantId", mAuth.getCurrentUser().getUid());
+                    Log.e("TenantLogin", "Tenant ID: " + userId);
                     startActivity(intent);
                     finish();
                 } else {

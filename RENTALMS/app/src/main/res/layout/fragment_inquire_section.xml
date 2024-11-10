@@ -3,24 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/input_box"
     android:padding="16dp"
     >
-
     <TextView
         android:id="@+id/priceTextView"
-        android:layout_width="265dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="Price: $0"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/inquireButton"
-        android:layout_width="110dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/color_btn"
-        android:text="Inquire Now"
-        android:textColor="@color/white" />
+        android:text="Inquire Now" />
 </LinearLayout>

@@ -225,7 +225,7 @@ public class LandlordAddProperty extends AppCompatActivity {
     }
 
 
-// Method to upload an image to Firebase Storage and update the property data
+    // Method to upload an image to Firebase Storage and update the property data
     private void uploadImageToFirebase(Uri imageUri, String type, HashMap<String, Object> propertyData, int[] uploadCounter) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference("property_images/" + UUID.randomUUID().toString());
         storageReference.putFile(imageUri)

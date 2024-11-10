@@ -190,7 +190,6 @@ public class TenantRegister extends AppCompatActivity {
     }
 
     // Function to save tenant information in Firestore Database
-    // Function to save tenant information in Firestore Database
     private void saveTenantInfo(String userId, String firstName, String lastName, String username, String mobile, String email) {
         // Create a HashMap to store the user data
         HashMap<String, Object> tenantInfo = new HashMap<>();
@@ -199,7 +198,7 @@ public class TenantRegister extends AppCompatActivity {
         tenantInfo.put("username", username);
         tenantInfo.put("mobile", mobile);
         tenantInfo.put("email", email);
-        tenantInfo.put("accountType", "Tenant");  // Add accountType field with "Tenant" value
+        tenantInfo.put("accountType", "Tenant");
 
         // Add a new document to the "Tenants" collection with the user's ID as the document ID
         DocumentReference tenantRef = tenantDatabase.collection("Tenants").document(userId);
@@ -214,5 +213,4 @@ public class TenantRegister extends AppCompatActivity {
             }
         });
     }
-
 }

@@ -3,6 +3,7 @@ package com.example.rentalms;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -86,9 +87,15 @@ public class TenantLogin extends AppCompatActivity {
                             String accounttype = document.getString("accountType");
                             if ("Tenant".equals(accounttype)) {
                                 // User is a tenant, allow access
+
                                 Toast.makeText(TenantLogin.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(TenantLogin.this, TenantPage.class));
-                                finish(); // Close the login activity
+
+                                // Pass the tenantId (userId) to TenantPage
+                                Intent intent = new Intent(TenantLogin.this, TenantPage.class);
+                                intent.putExtra("tenantId", mAuth.getCurrentUser().getUid());
+                                Log.e("TenantLogin", "Tenant ID: " + userId);
+                                startActivity(intent);
+                                finish();
                             } else {
                                 // User is not a tenant, deny access
                                 Toast.makeText(TenantLogin.this, "Access denied: You are not a tenant", Toast.LENGTH_LONG).show();

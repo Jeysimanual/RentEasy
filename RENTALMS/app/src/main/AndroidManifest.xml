@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RENTALMS"
         tools:targetApi="33">
+
         <activity
             android:name=".PropertyDetailsActivity"
             android:exported="false" />
@@ -86,9 +87,9 @@
             android:exported="true" />
         <activity
             android:name=".ChangePassword"
-            android:exported="true"/>
+            android:exported="true" />
         <activity android:name=".EditProperty"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

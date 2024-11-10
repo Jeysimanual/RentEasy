@@ -113,7 +113,7 @@ public class LanlordRegister extends AppCompatActivity {
         } else if (!email.contains("@")) {  // Check if email contains '@'
             landlordEmail.setError("Please enter a valid email address containing '@'");
             isValid = false;
-        }  else if (email.trim().contains(" ")) {  // Ensure no spaces within email
+        }  else if (!email.matches(nameRegex)) {
             landlordEmail.setError("Invalid format: avoid spaces in the email");
             isValid = false;
         }

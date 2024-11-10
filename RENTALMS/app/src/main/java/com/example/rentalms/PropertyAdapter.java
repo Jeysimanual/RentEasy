@@ -80,7 +80,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
             holder.itemView.getContext().startActivity(intent);
         });
     }
-        @Override
+    @Override
     public int getItemCount() {
         return propertyList.size();
     }

@@ -36,7 +36,7 @@
             android:paddingTop="8sp"
             android:textColor="@color/black"
             android:paddingStart="10sp"
-           android:background="@drawable/input_box"
+            android:background="@drawable/input_box"
             android:textSize="15sp" />
 
         <TextView

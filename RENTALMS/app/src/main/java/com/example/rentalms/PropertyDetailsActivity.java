@@ -56,7 +56,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         typeTextView.setText("Type: " + type);
 
         // Image URLs list
-        List<String> imageUrls = Arrays.asList(interiorImageUrl , exteriorImageUrl);
+        List<String> imageUrls = Arrays.asList(exteriorImageUrl, interiorImageUrl);
 
         // Set up the image slider adapter
         ImageSliderAdapter adapter = new ImageSliderAdapter(this, imageUrls);
