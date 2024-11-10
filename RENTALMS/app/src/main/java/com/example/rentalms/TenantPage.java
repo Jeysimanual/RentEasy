@@ -3,11 +3,9 @@ package com.example.rentalms;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
@@ -15,8 +13,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -31,18 +27,10 @@ public class TenantPage extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private SearchView searchView;
 
-    private String userID;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenant_page);
-        Intent intent;
-        intent = getIntent();
-        userID = intent.getStringExtra("userId");
-        Log.d("TenantPage", "User ID received: " + userID);
 
         db = FirebaseFirestore.getInstance();
         tenantPropertyRecyclerView = findViewById(R.id.tenantPropertyRecyclerView);
@@ -52,67 +40,50 @@ public class TenantPage extends AppCompatActivity {
         tenantPropertyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         propertyList = new ArrayList<>();
-        propertyAdapter = new TenantPropertyAdapter(this, propertyList);
+        propertyAdapter = new TenantPropertyAdapter(this, propertyList); // Updated line
         tenantPropertyRecyclerView.setAdapter(propertyAdapter);
-
-
-
-
-
 
         loadProperties();
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            propertyList.clear();
-            loadProperties();
+            propertyList.clear(); // Clear old data
+            loadProperties(); // Load properties again
         });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                filterProperties(query);
+                filterProperties(query); // Filter properties when the search is submitted
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filterProperties(newText);
+                filterProperties(newText); // Filter properties as the search text changes
                 return false;
             }
         });
 
-
-
-
-
-
-        // Correct the IDs to match your XML resource
+        // Bottom navigation setup
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
 
-        // Set up item selected listener for navigation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
-            // Handle the search button click (remains on the same page)
+            // Handle navigation clicks
             if (itemId == R.id.bottom_search) {
-                return true;
-
-                // Handle the favorite button click (navigate to TenantFavorite)
+                return true; // No action needed for current page
             } else if (itemId == R.id.bottom_favorite) {
                 startActivity(new Intent(getApplicationContext(), TenantFavorite.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
                 return true;
-
-                // Handle the chat button click (navigate to TenantChat)
             } else if (itemId == R.id.bottom_chat) {
                 startActivity(new Intent(getApplicationContext(), TenantChat.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
                 return true;
-
-                // Handle the more button click (navigate to TenantMore)
             } else if (itemId == R.id.bottom_more) {
                 startActivity(new Intent(getApplicationContext(), TenantMore.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -122,10 +93,7 @@ public class TenantPage extends AppCompatActivity {
 
             return false;
         });
-
     }
-
-
 
     private void loadProperties() {
         CollectionReference landlordsRef = db.collection("Landlords");
@@ -139,14 +107,13 @@ public class TenantPage extends AppCompatActivity {
                         if (propertyTask.isSuccessful()) {
                             for (QueryDocumentSnapshot propertyDoc : propertyTask.getResult()) {
                                 Property property = propertyDoc.toObject(Property.class);
-                                property.setUserId(userID);
-                                propertyList.add(property);
+                                propertyList.add(property); // Add properties to the list
                             }
-                            propertyAdapter.notifyDataSetChanged();
+                            propertyAdapter.notifyDataSetChanged(); // Notify adapter to refresh the UI
                         } else {
                             Toast.makeText(TenantPage.this, "Error loading properties", Toast.LENGTH_SHORT).show();
                         }
-                        swipeRefreshLayout.setRefreshing(false);
+                        swipeRefreshLayout.setRefreshing(false); // Stop the refreshing animation
                     });
                 }
             } else {
@@ -163,15 +130,12 @@ public class TenantPage extends AppCompatActivity {
                 if (property.getPropertyName().toLowerCase().contains(query.toLowerCase())
                         || property.getCity().toLowerCase().contains(query.toLowerCase())
                         || property.getProvince().toLowerCase().contains(query.toLowerCase())) {
-                    filteredList.add(property);
+                    filteredList.add(property); // Add matching properties to the filtered list
                 }
             }
         } else {
-            filteredList.addAll(propertyList);
+            filteredList.addAll(propertyList); // If the query is empty, show all properties
         }
-        propertyAdapter.updateList(filteredList);
+        propertyAdapter.updateList(filteredList); // Update the adapter with the filtered list
     }
-
-
-
 }

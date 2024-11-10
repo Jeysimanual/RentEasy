@@ -10,8 +10,14 @@
         android:layout_height="wrap_content"
         android:text="Favorite"
         android:textColor="@color/blue"
-        android:layout_centerInParent="true"
         android:textSize="36sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoriteRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="354dp"
+        android:layout_marginTop="50dp"
+        android:padding="8dp" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"

@@ -71,88 +71,58 @@ public class TenantRegister extends AppCompatActivity {
 
         boolean isValid = true; // Flag to check if all fields are valid
 
-        // Regular expression to allow only one space between words, no leading or trailing spaces
-        String nameRegex = "^[A-Za-z]+( [A-Za-z]+)*$"; // Allows letters only, with optional single spaces in between
-
-// Validate input fields and show error messages if necessary
-// First name validation
+        // Validate input fields and show error messages if necessary
         if (TextUtils.isEmpty(firstName)) {
             tenantFirstName.setError("First name is required");
             isValid = false;
-        } else if (!firstName.matches(nameRegex)) {
-            tenantFirstName.setError("Invalid format: avoid extra spaces in the firstname");
-            isValid = false;
         }
-
-// Last name validation
         if (TextUtils.isEmpty(lastName)) {
             tenantLastName.setError("Last name is required");
             isValid = false;
-        } else if (!lastName.matches(nameRegex)) {
-            tenantLastName.setError("Invalid format: avoid extra spaces in the lastname");
-            isValid = false;
         }
-
-// Username validation
         if (TextUtils.isEmpty(username)) {
             tenantusername.setError("Username is required");
             isValid = false;
-        } else if (!username.matches(nameRegex)) {
-            tenantusername.setError("Invalid format: avoid extra spaces in the username");
-            isValid = false;
         }
-
-// Mobile number validation
         if (TextUtils.isEmpty(mobile)) {
             tenantMobile.setError("Mobile number is required");
             isValid = false;
-        } else if (!mobile.startsWith("09") || mobile.length() != 11) {  // Check if mobile number starts with 09 and is exactly 11 digits
-            tenantMobile.setError("Mobile number must start with '09' and be 11 digits long");
+        } else if (mobile.length() != 11) {  // Check if mobile number is exactly 11 digits
+            tenantMobile.setError("Mobile number must be 11 digits");
             isValid = false;
         }
-
-// Email validation
         if (TextUtils.isEmpty(email)) {
             tenantEmail.setError("Email is required");
             isValid = false;
-        } else if (!email.contains("@")) {  // Check if email contains '@'
+        }
+        else if (!email.contains("@")) {  // Check if email contains '@'
             tenantEmail.setError("Please enter a valid email address containing '@'");
             isValid = false;
-        } else if (email.trim().contains(" ")) {  // Ensure no spaces within email
-            tenantEmail.setError("Invalid format: avoid spaces in the email");
-            isValid = false;
         }
-
-// Password validation: at least 6 characters, uppercase and lowercase letters, and not only digits
         if (TextUtils.isEmpty(password)) {
             tenantPassword.setError("Password is required");
             isValid = false;
-        } else if (password.length() < 6) {  // Check if password is at least 6 characters long
+        }
+        else if (password.length() < 6) {  // Check if password is at least 6 characters long
             tenantPassword.setError("Password should be at least 6 characters");
             isValid = false;
         } else if (TextUtils.isDigitsOnly(password)) {  // Check if password is only numbers
             tenantPassword.setError("Password should not be only numbers");
             isValid = false;
-        } else if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*")) {  // Check if password has both uppercase and lowercase letters
-            tenantPassword.setError("Password must contain both Uppercase and lowercase letters");
-            isValid = false;
         }
-
-// Retype password validation
         if (TextUtils.isEmpty(retypePassword)) {
             tenantRetypePassword.setError("Please retype your password");
             isValid = false;
-        } else if (!password.equals(retypePassword)) {
+        }
+        if (!password.equals(retypePassword)) {
             tenantRetypePassword.setError("Passwords do not match");
             isValid = false;
         }
 
-// If any field is invalid, return early
+        // If any field is invalid, return early
         if (!isValid) {
-            Toast.makeText(this, "Please correct the highlighted fields", Toast.LENGTH_LONG).show();
             return; // Stop further execution if validation fails
         }
-
 
         // Check if the mobile number is already registered
         tenantDatabase.collection("Tenants")

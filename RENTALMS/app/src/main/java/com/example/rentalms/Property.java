@@ -8,15 +8,17 @@ public class Property {
     private String propertyName;
     private String province;
     private String type;
-    private String userId;    // Ensures 'userId' is stored in each Property instance
-    private String barangay;  // New field for barangay
-    private String address;   // New field for address
+    private String userId;
+    private String barangay;       // New field for barangay location
+    private String address;        // New field for address
 
+    // Default constructor
     public Property() {}
 
+    // Constructor with all fields
     public Property(String city, String exteriorImageUrl, String interiorImageUrl,
                     String price, String propertyName, String province, String type,
-                    String barangay, String address) {
+                    String userId, String barangay, String address) {
         this.city = city;
         this.exteriorImageUrl = exteriorImageUrl;
         this.interiorImageUrl = interiorImageUrl;
@@ -24,10 +26,12 @@ public class Property {
         this.propertyName = propertyName;
         this.province = province;
         this.type = type;
+        this.userId = userId;
         this.barangay = barangay;
         this.address = address;
     }
 
+    // Getters
     public String getCity() {
         return city;
     }
@@ -56,31 +60,28 @@ public class Property {
         return type;
     }
 
-
-
     public String getUserId() {
         return userId;
     }
 
+    public String getBarangay() {   // Getter for barangay
+        return barangay;
+    }
+
+    public String getAddress() {    // Getter for address
+        return address;
+    }
+
+    // Setters
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    // Getter and Setter for barangay
-    public String getBarangay() {
-        return barangay;
-    }
-
-    public void setBarangay(String barangay) {
+    public void setBarangay(String barangay) {    // Setter for barangay
         this.barangay = barangay;
     }
 
-    // Getter and Setter for address
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
+    public void setAddress(String address) {      // Setter for address
         this.address = address;
     }
 }

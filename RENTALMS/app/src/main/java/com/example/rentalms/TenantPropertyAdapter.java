@@ -37,10 +37,8 @@ public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAd
         Property property = propertyList.get(position);
         holder.propertyNameTextView.setText(property.getPropertyName());
         holder.cityTextView.setText(property.getCity());
-        holder.priceTextView.setText("Price: " + property.getPrice());
+        holder.priceTextView.setText("Price: ₱" + property.getPrice());
         holder.propertyTypeTextView.setText("Type: " + property.getType());
-        holder.barangayTextView.setText(property.getBarangay()); // Set barangay
-        holder.addressTextView.setText(property.getAddress());    // Set address
 
         Glide.with(context)
                 .load(property.getExteriorImageUrl())
@@ -58,8 +56,6 @@ public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAd
             intent.putExtra("type", property.getType());
             intent.putExtra("exteriorImageUrl", property.getExteriorImageUrl());
             intent.putExtra("interiorImageUrl", property.getInteriorImageUrl());
-            intent.putExtra("barangay", property.getBarangay()); // Add barangay to intent
-            intent.putExtra("address", property.getAddress());   // Add address to intent
             context.startActivity(intent);
         });
     }
@@ -80,15 +76,11 @@ public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAd
         public TextView cityTextView;
         public TextView priceTextView;
         public TextView propertyTypeTextView;
-        public TextView barangayTextView;  // New TextView for barangay
-        public TextView addressTextView;   // New TextView for address
         public ImageView propertyImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             propertyNameTextView = itemView.findViewById(R.id.propertyName);
-            barangayTextView = itemView.findViewById(R.id.barangay);    // Initialize barangay TextView
-            addressTextView = itemView.findViewById(R.id.address);      // Initialize address TextView
             cityTextView = itemView.findViewById(R.id.city);
             priceTextView = itemView.findViewById(R.id.price);
             propertyTypeTextView = itemView.findViewById(R.id.propertyType);

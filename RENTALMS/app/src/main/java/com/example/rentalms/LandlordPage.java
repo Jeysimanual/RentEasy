@@ -43,23 +43,19 @@ public class LandlordPage extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewProperties);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         propertyList = new ArrayList<>();
-
-        // Reference to the TextView where the username will be displayed
-        TextView usernameTextView = findViewById(R.id.landlordusername);
+        propertyAdapter = new PropertyAdapter(propertyList);
+        recyclerView.setAdapter(propertyAdapter);
 
         // Get the currently logged-in user
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        // Reference to the TextView where the username will be displayed
+        TextView usernameTextView = findViewById(R.id.landlordusername);
+
         if (currentUser != null) {
-            String userId = currentUser.getUid();  // Initialize userId after retrieving current user
-
-            // Initialize PropertyAdapter with userId
-            propertyAdapter = new PropertyAdapter(propertyList, userId);
-            recyclerView.setAdapter(propertyAdapter);
-
+            String userId = currentUser.getUid();
             DocumentReference userRef = db.collection("Landlords").document(userId);
 
-            // Fetch username from Firestore
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
@@ -78,7 +74,6 @@ public class LandlordPage extends AppCompatActivity {
                 }
             });
 
-            // Fetch properties belonging to the landlord
             userRef.collection("properties").get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     QuerySnapshot querySnapshot = task.getResult();
@@ -99,14 +94,13 @@ public class LandlordPage extends AppCompatActivity {
 
         ImageButton addPropertyButton = findViewById(R.id.add_property);
         addPropertyButton.setOnClickListener(v -> {
-            if (currentUser != null) {
-                Intent intent = new Intent(LandlordPage.this, LandlordAddProperty.class);
-                intent.putExtra("landlordId", currentUser.getUid());
-                intent.putExtra("username", usernameTextView.getText().toString());
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
+            Intent intent = new Intent(LandlordPage.this, LandlordAddProperty.class);
+            intent.putExtra("landlordId", currentUser.getUid());
+            intent.putExtra("username", usernameTextView.getText().toString());
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.btn_home);
@@ -136,5 +130,5 @@ public class LandlordPage extends AppCompatActivity {
             return false;
         });
     }
-}
 
+}

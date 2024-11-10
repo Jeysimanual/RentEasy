@@ -26,14 +26,12 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/profile_picture"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/baseline_account_circle"
                 android:contentDescription="Profile Image"
                 android:tint="#1976D2"
                 tools:ignore="UseAppTint" />
-
 
             <TextView
                 android:id="@+id/Tenantusername"
@@ -208,7 +206,6 @@
 
             <!-- Change Password -->
             <LinearLayout
-                android:id="@+id/changepass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
