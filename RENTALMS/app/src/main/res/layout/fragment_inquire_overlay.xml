@@ -1,0 +1,71 @@
+<!-- fragment_inquire_overlay.xml -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/input_box"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/inquireTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You are inquiring (property name)"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/inquireSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A (property type) in (city), (province)"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/inquireQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How can we help you?"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/messageButton"
+            android:layout_width="177dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40sp"
+            android:background="@drawable/input_boxer"
+            android:text="Send a Message" />
+
+        <Button
+            android:id="@+id/scheduleVisitButton"
+            android:layout_width="177dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_boxer"
+            android:text="Schedule a Visit" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="177dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="40sp"
+            android:layout_marginBottom="20sp"
+            android:textColor="#F00808"
+            android:background="@drawable/input_boxer"
+            android:text="Cancel" />
+    </LinearLayout>
+</LinearLayout>
