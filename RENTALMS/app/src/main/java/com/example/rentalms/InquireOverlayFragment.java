@@ -2,6 +2,7 @@
 
 package com.example.rentalms;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -80,8 +81,20 @@ public class InquireOverlayFragment extends Fragment {
         });
 
         scheduleVisitButton.setOnClickListener(v -> {
-            // dito naman yung sa schedule button
+            // Navigate to SetScheduleActivity
+            Intent intent = new Intent(requireContext(), SetSchedule.class);
+
+            // Pass property details to the SetSchedule activity
+            intent.putExtra("propertyName", propertyName);
+            intent.putExtra("barangay", getArguments().getString("barangay", "Barangay"));
+            intent.putExtra("address", getArguments().getString("address", "Address"));
+            intent.putExtra("city", city);
+
+            startActivity(intent);
         });
+
+
+
 
         cancelButton.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().popBackStack();

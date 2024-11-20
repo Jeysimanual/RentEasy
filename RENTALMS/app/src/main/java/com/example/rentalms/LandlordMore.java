@@ -80,7 +80,7 @@ public class LandlordMore extends AppCompatActivity {
         changepass = findViewById(R.id.changepass);
         changepass.setOnClickListener(view -> {
             // Navigate to ChangePassword activity when "Change Password" is clicked
-            Intent intent = new Intent(LandlordMore.this, ChangePassword.class);
+            Intent intent = new Intent(LandlordMore.this, LandlordChangePass.class);
             startActivity(intent);
         });
 

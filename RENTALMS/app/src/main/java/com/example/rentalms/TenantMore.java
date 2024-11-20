@@ -27,6 +27,8 @@ public class TenantMore extends AppCompatActivity {
     FirebaseFirestore firestore;
     LinearLayout myAccount;
     LinearLayout changepass;
+
+    LinearLayout schedulebtn;
     ImageView profileImageView;  // Update to use profile_picture ID
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
@@ -89,6 +91,11 @@ public class TenantMore extends AppCompatActivity {
         changepass = findViewById(R.id.changepass);
         changepass.setOnClickListener(view -> {
             Intent intent = new Intent(TenantMore.this, ChangePassword.class);
+            startActivity(intent);
+        });
+        schedulebtn = findViewById(R.id.schedulebtn);
+        schedulebtn.setOnClickListener(view -> {
+            Intent intent = new Intent(TenantMore.this, ScheduleVisit.class);
             startActivity(intent);
         });
 

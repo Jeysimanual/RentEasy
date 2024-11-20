@@ -63,6 +63,20 @@ public class ChangePassword extends AppCompatActivity {
         String newPass = newPassword.getText().toString().trim();
         String retypePass = retypeNewPassword.getText().toString().trim();
 
+        // Check if any field is empty
+        if (oldPass.isEmpty()) {
+            Toast.makeText(this, "Please enter your old password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (newPass.isEmpty()) {
+            Toast.makeText(this, "Please enter a new password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (retypePass.isEmpty()) {
+            Toast.makeText(this, "Please retype the new password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Check if new passwords match
         if (!newPass.equals(retypePass)) {
             Toast.makeText(this, "New passwords do not match", Toast.LENGTH_SHORT).show();
@@ -94,4 +108,5 @@ public class ChangePassword extends AppCompatActivity {
             }
         });
     }
+
 }
