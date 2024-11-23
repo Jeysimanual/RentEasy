@@ -4,13 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -24,6 +25,7 @@ public class Login extends AppCompatActivity {
     TextView createacc, forgotPassword;
     EditText emailInput, passwordInput;
     Button loginButton;
+    ImageView lockImage, unlockImage;
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -42,11 +44,38 @@ public class Login extends AppCompatActivity {
         emailInput = findViewById(R.id.email);
         passwordInput = findViewById(R.id.Password);
         loginButton = findViewById(R.id.loginbtn);
+        lockImage = findViewById(R.id.lock);
+        unlockImage = findViewById(R.id.unlock);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             mAuth.signOut();
         }
+
+        // Initially, password is hidden, and the lock icon is visible
+        lockImage.setVisibility(View.VISIBLE);
+        unlockImage.setVisibility(View.GONE);
+
+        // Toggle password visibility when lock icon is clicked
+        lockImage.setOnClickListener(view -> {
+            // Show password
+            passwordInput.setTransformationMethod(android.text.method.HideReturnsTransformationMethod.getInstance());
+            // Hide lock and show unlock
+            lockImage.setVisibility(View.GONE);
+            unlockImage.setVisibility(View.VISIBLE);
+        });
+
+        // Toggle password visibility when unlock icon is clicked
+        unlockImage.setOnClickListener(view -> {
+            // Hide password
+            passwordInput.setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
+            // Hide unlock and show lock
+            unlockImage.setVisibility(View.GONE);
+            lockImage.setVisibility(View.VISIBLE);
+        });
+
+        // Ensure cursor remains at the end of the input
+        passwordInput.setSelection(passwordInput.getText().length());
 
         createacc.setOnClickListener(view -> {
             startActivity(new Intent(Login.this, CreateAccount.class));

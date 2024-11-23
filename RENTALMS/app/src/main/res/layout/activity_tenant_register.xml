@@ -155,19 +155,57 @@
                 android:textColor="#118EF6"
                 android:textSize="15dp"
                 android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/TenantPassword"
+            <LinearLayout
                 android:layout_width="305dp"
-                android:layout_height="39dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingStart="10sp"
-                android:layout_marginBottom="15sp"
-                android:background="@drawable/input_box"
-                android:ems="10"
-                android:hint="Type your strong password here"
-                android:inputType="textPassword"
-                android:textSize="15dp" />
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="39dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/TenantPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="39dp"
+                        android:background="@drawable/input_box"
+                        android:ems="10"
+                        android:hint="Type your strong password here"
+                        android:paddingStart="10sp"
+                        android:inputType="textPassword"
+                        android:textSize="15dp" />
+
+                    <!-- Lock Image for hiding the password -->
+                    <ImageView
+                        android:id="@+id/lock1"
+                        android:layout_width="40dp"
+                        android:layout_height="39dp"
+                        android:padding="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_lock"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <!-- Unlock Image for showing the password -->
+                    <ImageView
+                        android:id="@+id/unlock1"
+                        android:layout_width="40dp"
+                        android:layout_height="39dp"
+                        android:padding="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_unlock"
+                        android:visibility="gone"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
 
 
 
@@ -181,19 +219,56 @@
                 android:textColor="#118EF6"
                 android:textSize="15dp"
                 android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/TenantRetype"
+            <LinearLayout
                 android:layout_width="305dp"
-                android:layout_height="39dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingStart="10sp"
-                android:layout_marginBottom="15sp"
-                android:background="@drawable/input_box"
-                android:ems="10"
-                android:hint="Retype your password here"
-                android:inputType="textPassword"
-                android:textSize="15dp" />
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="39dp"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/TenantRetype"
+                        android:layout_width="match_parent"
+                        android:layout_height="39dp"
+                        android:background="@drawable/input_box"
+                        android:ems="10"
+                        android:hint="Retype your password here"
+                        android:paddingStart="10sp"
+                        android:inputType="textPassword"
+                        android:textSize="15dp" />
+
+                    <!-- Lock Image for hiding the password -->
+                    <ImageView
+                        android:id="@+id/lock"
+                        android:layout_width="40dp"
+                        android:layout_height="39dp"
+                        android:padding="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_lock"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                    <!-- Unlock Image for showing the password -->
+                    <ImageView
+                        android:id="@+id/unlock"
+                        android:layout_width="40dp"
+                        android:layout_height="39dp"
+                        android:padding="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_unlock"
+                        android:visibility="gone"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                </RelativeLayout>
+            </LinearLayout>
 
 
             <TextView

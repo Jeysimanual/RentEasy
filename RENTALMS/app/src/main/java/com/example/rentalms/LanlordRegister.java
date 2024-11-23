@@ -3,16 +3,21 @@ package com.example.rentalms;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -26,7 +31,10 @@ public class LanlordRegister extends AppCompatActivity {
 
     // Firebase components
     FirebaseAuth mAuth;
-    FirebaseFirestore landlordDatabase;  // Firestore reference
+    FirebaseFirestore landlordDatabase;
+
+    // Lock and Unlock ImageViews for password toggle
+    ImageView lockIconPassword, unlockIconPassword, lockIconRetype, unlockIconRetype;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -34,9 +42,9 @@ public class LanlordRegister extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lanlord_register);
 
-        // Initialize Firebase Authentication and Firestore Database
+        // Initialize Firebase Authentication and Firestore
         mAuth = FirebaseAuth.getInstance();
-        landlordDatabase = FirebaseFirestore.getInstance();  // Firestore initialization
+        landlordDatabase = FirebaseFirestore.getInstance();
 
         // Initialize UI components
         landlordFirstName = findViewById(R.id.Landlordfirstname);
@@ -50,17 +58,87 @@ public class LanlordRegister extends AppCompatActivity {
         landlordlogin = findViewById(R.id.landlordlogin);
         createAccountButton = findViewById(R.id.btnCreateAccount);
 
-        // Create account button click listener
+        // Initialize Lock/Unlock icons for password visibility toggle
+        lockIconPassword = findViewById(R.id.lock1);
+        unlockIconPassword = findViewById(R.id.unlock1);
+        lockIconRetype = findViewById(R.id.lock);
+        unlockIconRetype = findViewById(R.id.unlock);
+
         createAccountButton.setOnClickListener(view -> createAccount());
 
         // Login link click listener
         landlordlogin.setOnClickListener(v -> {
             startActivity(new Intent(LanlordRegister.this, LandlordLogin.class));
         });
+
+        // Password visibility toggle for landlordPassword
+        lockIconPassword.setOnClickListener(view -> togglePasswordVisibility(landlordPassword, lockIconPassword, unlockIconPassword));
+        unlockIconPassword.setOnClickListener(view -> togglePasswordVisibility(landlordPassword, lockIconPassword, unlockIconPassword));
+
+        // Password visibility toggle for landlordRetypePassword
+        lockIconRetype.setOnClickListener(view -> togglePasswordVisibility(landlordRetypePassword, lockIconRetype, unlockIconRetype));
+        unlockIconRetype.setOnClickListener(view -> togglePasswordVisibility(landlordRetypePassword, lockIconRetype, unlockIconRetype));
+
+        // TextWatcher for landlordPassword
+        landlordPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                togglePasswordIcons(landlordPassword, lockIconPassword, unlockIconPassword);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        // TextWatcher for landlordRetypePassword
+        landlordRetypePassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                togglePasswordIcons(landlordRetypePassword, lockIconRetype, unlockIconRetype);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
     }
 
-    // Function to create a new landlord account
-    // Function to create a new landlord account
+    // Method to toggle the visibility of the password
+    private void togglePasswordVisibility(EditText editText, ImageView lockIcon, ImageView unlockIcon) {
+        if (editText.getTransformationMethod() instanceof PasswordTransformationMethod) {
+            // Show the password
+            editText.setTransformationMethod(null); // Show the text
+            lockIcon.setVisibility(View.GONE);
+            unlockIcon.setVisibility(View.VISIBLE);
+        } else {
+            // Hide the password
+            editText.setTransformationMethod(PasswordTransformationMethod.getInstance()); // Hide the text
+            lockIcon.setVisibility(View.VISIBLE);
+            unlockIcon.setVisibility(View.GONE);
+        }
+        // Move the cursor to the end of the text
+        editText.setSelection(editText.getText().length());
+    }
+
+    // Method to update icon visibility based on password field state
+    private void togglePasswordIcons(EditText editText, ImageView lockIcon, ImageView unlockIcon) {
+        if (editText.getTransformationMethod() instanceof PasswordTransformationMethod) {
+            lockIcon.setVisibility(View.VISIBLE);  // Lock icon visible (password hidden)
+            unlockIcon.setVisibility(View.GONE);   // Unlock icon hidden
+        } else {
+            lockIcon.setVisibility(View.GONE);     // Lock icon hidden (password visible)
+            unlockIcon.setVisibility(View.VISIBLE); // Unlock icon visible
+        }
+    }
     private void createAccount() {
         String firstName = landlordFirstName.getText().toString().trim();
         String lastName = landlordLastName.getText().toString().trim();
@@ -70,142 +148,176 @@ public class LanlordRegister extends AppCompatActivity {
         String password = landlordPassword.getText().toString().trim();
         String retypePassword = landlordRetypePassword.getText().toString().trim();
 
-        boolean isValid = true; // Flag to check if all fields are valid
+        boolean isValid = validateInputs(firstName, lastName, username, mobile, email, password, retypePassword);
+        if (!isValid) return;
 
-        // Regular expression to allow only one space between words, no leading or trailing spaces
-        String nameRegex = "^[A-Za-z]+( [A-Za-z]+)*$"; // Allows letters only, with optional single spaces in between
+        if (TextUtils.isEmpty(password) || TextUtils.isEmpty(retypePassword)) {
+            // Show an alert if password or retype password is empty
+            Toast.makeText(this, "Password and Retype Password are required", Toast.LENGTH_SHORT).show();
 
-// Validate first name and last name using the regex
+            // Hide the icons when the alert is shown
+            lockIconPassword.setVisibility(View.GONE);
+            unlockIconPassword.setVisibility(View.GONE);
+            lockIconRetype.setVisibility(View.GONE);
+            unlockIconRetype.setVisibility(View.GONE);
+
+            return;
+        }
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Send verification email
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    user.sendEmailVerification().addOnCompleteListener(emailTask -> {
+                        if (emailTask.isSuccessful()) {
+                            Toast.makeText(this, "Verification email sent. Please verify to log in.", Toast.LENGTH_SHORT).show();
+                            saveLandlordInfo(user.getUid(), firstName, lastName, username, mobile, email);
+                            startActivity(new Intent(LanlordRegister.this, LandlordLogin.class));
+                            finish();
+                        } else {
+                            Toast.makeText(this, "Failed to send verification email: " + emailTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            } else {
+                Toast.makeText(this, "Account creation failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private boolean validateInputs(String firstName, String lastName, String username, String mobile, String email, String password, String retypePassword) {
+        boolean isValid = true;
+        String nameRegex = "^[A-Za-z]+( [A-Za-z]+)*$";  // Allows letters only, with optional single spaces in between
+        String alphabetOnlyRegex = "^[a-zA-Z]+$"; // Only allows alphabetic characters (no numbers, no special characters)
+        String extraSpacesRegex = ".*\\s{2,}.*"; // Checks for more than one space anywhere in the name
+
+        // Check for first name: Must not have extra spaces and only alphabetic characters
         if (TextUtils.isEmpty(firstName)) {
             landlordFirstName.setError("First name is required");
             isValid = false;
+        } else if (firstName.matches(extraSpacesRegex)) {
+            landlordFirstName.setError("Invalid format: avoid extra spaces in the first name");
+            isValid = false;
+        } else if (!firstName.matches(alphabetOnlyRegex)) {
+            landlordFirstName.setError("First name must only contain letters, no numbers or special characters");
+            isValid = false;
         } else if (!firstName.matches(nameRegex)) {
-            landlordFirstName.setError("Invalid format: avoid extra spaces in the firstname");
+            landlordFirstName.setError("Invalid format: avoid extra spaces in the first name");
             isValid = false;
         }
 
+        // Check for last name: Must not have extra spaces and only alphabetic characters
         if (TextUtils.isEmpty(lastName)) {
             landlordLastName.setError("Last name is required");
             isValid = false;
+        } else if (lastName.matches(extraSpacesRegex)) {
+            landlordLastName.setError("Invalid format: avoid extra spaces in the last name");
+            isValid = false;
+        } else if (!lastName.matches(alphabetOnlyRegex)) {
+            landlordLastName.setError("Last name must only contain letters, no numbers or special characters");
+            isValid = false;
         } else if (!lastName.matches(nameRegex)) {
-            landlordLastName.setError("Invalid format: avoid extra spaces in the lastname");
+            landlordLastName.setError("Invalid format: avoid extra spaces in the last name");
             isValid = false;
         }
 
+        // Check for username: Allow letters, numbers, and a single space between words
         if (TextUtils.isEmpty(username)) {
             landlordusername.setError("Username is required");
             isValid = false;
-        } else if (!username.matches(nameRegex)) {
-            landlordusername.setError("Invalid format: avoid extra spaces in the username");
-            isValid = false;
+        } else {
+            username = username.trim(); // Trim leading and trailing spaces
+            if (!username.matches("^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$")) { // Allows single spaces between words
+                landlordusername.setError("Username must only contain letters, numbers, and a single space between words");
+                isValid = false;
+            } else if (username.contains("  ")) { // Check for multiple consecutive spaces
+                landlordusername.setError("Username must not contain multiple consecutive spaces");
+                isValid = false;
+            }
         }
 
+
+
+        // Validate mobile number
         if (TextUtils.isEmpty(mobile)) {
             landlordMobile.setError("Mobile number is required");
             isValid = false;
-        } else if (!mobile.startsWith("09") || mobile.length() != 11) {  // Check if mobile number starts with 09 and is exactly 11 digits
+        } else if (!mobile.startsWith("09") || mobile.length() != 11) {
             landlordMobile.setError("Mobile number must start with '09' and be 11 digits long");
             isValid = false;
         }
+
+        // Validate email
         if (TextUtils.isEmpty(email)) {
             landlordEmail.setError("Email is required");
             isValid = false;
-        } else if (!email.contains("@")) {  // Check if email contains '@'
+        } else if (!email.contains("@")) {
             landlordEmail.setError("Please enter a valid email address containing '@'");
             isValid = false;
-        }  else if (!email.matches(nameRegex)) {
+        } else if (email.trim().contains(" ")) {
             landlordEmail.setError("Invalid format: avoid spaces in the email");
             isValid = false;
         }
 
-        // Password validation: at least 6 characters, first letter uppercase, and not only digits
+        // Validate password
         if (TextUtils.isEmpty(password)) {
             landlordPassword.setError("Password is required");
             isValid = false;
-        } else if (password.length() < 6) {  // Check if password is at least 6 characters long
+        } else if (password.length() < 6) {
             landlordPassword.setError("Password should be at least 6 characters");
             isValid = false;
-        } else if (TextUtils.isDigitsOnly(password)) {  // Check if password is only numbers
+        } else if (TextUtils.isDigitsOnly(password)) {
             landlordPassword.setError("Password should not be only numbers");
             isValid = false;
-        } else if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*")) {  // Check if password has both uppercase and lowercase letters
-            landlordPassword.setError("Password must contain both Uppercase and lowercase letters");
+        } else if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*")) {
+            landlordPassword.setError("Password must contain both uppercase and lowercase letters");
             isValid = false;
         }
 
+        // Validate retype password
         if (TextUtils.isEmpty(retypePassword)) {
-            landlordRetypePassword.setError("Please retype your password");
+            landlordRetypePassword.setError("Retype password is required");
             isValid = false;
-        }
-        if (!password.equals(retypePassword)) {
+        } else if (!retypePassword.equals(password)) {
             landlordRetypePassword.setError("Passwords do not match");
             isValid = false;
         }
 
-        // If any field is invalid, return early
+        // Hide icons if any validation fails and show a toast message
         if (!isValid) {
+            // Hide the lock and unlock icons
+            lockIconPassword.setVisibility(View.GONE);
+            unlockIconPassword.setVisibility(View.GONE);
+            lockIconRetype.setVisibility(View.GONE);
+            unlockIconRetype.setVisibility(View.GONE);
+
+            // Display a toast message
             Toast.makeText(this, "Please correct the highlighted fields", Toast.LENGTH_LONG).show();
-            return; // Stop further execution if validation fails
         }
 
-        // Continue with account creation if validation succeeds
-        landlordDatabase.collection("Landlords")
-                .whereEqualTo("mobile", mobile)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        landlordMobile.setError("This mobile number is already in use");
-                    } else {
-                        createFirebaseAccount(email, password, firstName, lastName, username, mobile);
-                    }
-                });
+
+        return isValid;
     }
 
 
-    // Function to create a Firebase account and save landlord info
-    private void createFirebaseAccount(String email, String password, String firstName, String lastName, String username, String mobile) {
-        // Create account in Firebase Authentication
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                // Account created successfully, now save the user information in Firestore
-                String userId = mAuth.getCurrentUser().getUid();
-                saveLandlordInfo(userId, firstName, lastName, username, mobile, email);
 
-                // Show success message and navigate to login
-                Toast.makeText(LanlordRegister.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LanlordRegister.this, LandlordLogin.class));
-                finish();
-            } else {
-                // If account creation fails, display an error message
-                Toast.makeText(LanlordRegister.this, "Account creation failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-    // Function to save landlord information in Firestore Database
+
     private void saveLandlordInfo(String userId, String firstName, String lastName, String username, String mobile, String email) {
-        // Create a HashMap to store the user data
         HashMap<String, Object> landlordInfo = new HashMap<>();
+        landlordInfo.put("userId", userId);
         landlordInfo.put("firstName", firstName);
         landlordInfo.put("lastName", lastName);
         landlordInfo.put("username", username);
         landlordInfo.put("mobile", mobile);
         landlordInfo.put("email", email);
 
-        // Add the account type to the HashMap
-        landlordInfo.put("accountType", "Landlord"); // This line adds the account type
-
-        // Add a new document to the "Landlords" collection with the user's ID as the document ID
-        DocumentReference landlordRef = landlordDatabase.collection("Landlords").document(userId);
-
-        landlordRef.set(landlordInfo).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                // Data saved successfully
-                Toast.makeText(LanlordRegister.this, "Landlord data saved", Toast.LENGTH_SHORT).show();
-            } else {
-                // Error in saving data
-                Toast.makeText(LanlordRegister.this, "Failed to save landlord data", Toast.LENGTH_SHORT).show();
-            }
-        });
+        landlordDatabase.collection("landlords").document(userId).set(landlordInfo)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LanlordRegister.this, "Landlord info saved", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LanlordRegister.this, "Failed to save landlord info", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
-
 }

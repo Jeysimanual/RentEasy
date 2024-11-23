@@ -90,8 +90,13 @@ public class InquireOverlayFragment extends Fragment {
             intent.putExtra("address", getArguments().getString("address", "Address"));
             intent.putExtra("city", city);
 
+            // Pass landlordId and propertyId
+            intent.putExtra("landlordId", getArguments().getString("landlordId", "landlordDocumentId"));
+            intent.putExtra("propertyId", getArguments().getString("propertyId", "propertyDocumentId"));
+
             startActivity(intent);
         });
+
 
 
 

@@ -9,12 +9,19 @@
     android:background="#f9f9f9"
     tools:context=".TenantLogin">
 
+    <ImageView
+        android:layout_width="305dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/design" />
+
     <TextView
         android:id="@+id/tenantEmail"
         android:layout_width="326dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="5dp"
         android:text="Email Address"
         android:textStyle="bold"
@@ -27,9 +34,10 @@
         android:layout_height="39dp"
         android:layout_gravity="center"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/btn_background"
+        android:background="@drawable/input_box"
+        android:paddingStart="10sp"
         android:ems="10"
-        android:hint="  Type your email address here"
+        android:hint="Type your email address here"
         android:inputType="text"
         android:textSize="15dp" />
 
@@ -44,17 +52,57 @@
         android:textSize="15dp"
         android:textColor="#118EF6" />
 
-    <EditText
-        android:id="@+id/tenantPassword"
+    <LinearLayout
         android:layout_width="325dp"
-        android:layout_height="39dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/btn_background"
-        android:textSize="15dp"
-        android:ems="10"
-        android:hint="  Type your password here"
-        android:inputType="textPassword"/>
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="39dp"
+            android:layout_weight="1">
+
+            <!-- EditText for the tenant password input -->
+            <EditText
+                android:id="@+id/tenantPassword"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:background="@drawable/input_box"
+                android:ems="10"
+                android:hint="Type your password here"
+                android:paddingStart="10sp"
+                android:inputType="textPassword"
+                android:textSize="15dp" />
+
+            <!-- Lock Image for hiding the password -->
+            <ImageView
+                android:id="@+id/lockIcon"
+                android:layout_width="40dp"
+                android:layout_height="39dp"
+                android:padding="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_lock"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <!-- Unlock Image for showing the password -->
+            <ImageView
+                android:id="@+id/unlockIcon"
+                android:layout_width="40dp"
+                android:layout_height="39dp"
+                android:padding="10dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_unlock"
+                android:visibility="gone"
+                android:clickable="true"
+                android:focusable="true" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/tenantFP"
@@ -81,14 +129,6 @@
         android:textStyle="bold"
         tools:ignore="OnClick" />
 
-    <Button
-        android:layout_width="325dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_height="40dp"
-        android:background="@drawable/btn_background"
-        android:textAlignment="center"
-        android:text="Continue with Google"/>
 
     <LinearLayout
         android:id="@+id/animation"

@@ -21,6 +21,8 @@ public class SetSchedule extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private String tenantUserId;
+    private String landlordId;
+    private String propertyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,13 @@ public class SetSchedule extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         tenantUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        // Retrieve property details from the Intent
+        // Retrieve property and landlord details from the Intent
         String propertyName = getIntent().getStringExtra("propertyName");
         String barangay = getIntent().getStringExtra("barangay");
         String address = getIntent().getStringExtra("address");
         String city = getIntent().getStringExtra("city");
+        landlordId = getIntent().getStringExtra("landlordId");
+        propertyId = getIntent().getStringExtra("propertyId");
 
         // Display property details
         TextView tvPropertyName = findViewById(R.id.tv_property_name);
@@ -76,26 +80,38 @@ public class SetSchedule extends AppCompatActivity {
             scheduleData.put("date", scheduleDate);
             scheduleData.put("time", scheduleTime);
             scheduleData.put("status", "Pending");
+            scheduleData.put("tenantId", tenantUserId);
 
+            // Save to tenant's subcollection
             db.collection("Tenants")
                     .document(tenantUserId)
                     .collection("Schedules")
                     .add(scheduleData)
                     .addOnSuccessListener(documentReference -> {
-                        new AlertDialog.Builder(SetSchedule.this)
-                                .setTitle("Thank You!")
-                                .setMessage("Your schedule has been set.\nDate: " + scheduleDate +
-                                        "\nTime: " + scheduleTime +
-                                        "\nProperty: " + propertyName +
-                                        "\nPlease wait for the landlord's confirmation.")
-                                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
-                                .show();
+                        // Save to landlord's subcollection
+                        db.collection("Landlords")
+                                .document(landlordId)
+                                .collection("properties")
+                                .document(propertyId)
+                                .collection("Schedules")
+                                .add(scheduleData)
+                                .addOnSuccessListener(docRef -> {
+                                    new AlertDialog.Builder(SetSchedule.this)
+                                            .setTitle("Thank You!")
+                                            .setMessage("Your schedule has been set.\nDate: " + scheduleDate +
+                                                    "\nTime: " + scheduleTime +
+                                                    "\nProperty: " + propertyName +
+                                                    "\nPlease wait for the landlord's confirmation.")
+                                            .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                                            .show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(SetSchedule.this, "Failed to set schedule in landlord's data. Please try again.", Toast.LENGTH_SHORT).show();
+                                });
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(SetSchedule.this, "Failed to set schedule. Please try again.", Toast.LENGTH_SHORT).show();
                     });
         });
     }
-
-
 }
