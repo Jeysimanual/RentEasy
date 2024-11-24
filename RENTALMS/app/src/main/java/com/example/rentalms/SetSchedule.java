@@ -20,9 +20,7 @@ import java.util.Map;
 public class SetSchedule extends AppCompatActivity {
 
     private FirebaseFirestore db;
-    private String tenantUserId;
-    private String landlordId;
-    private String propertyId;
+    private String tenantUserId, landlordId, propertyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +30,14 @@ public class SetSchedule extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         tenantUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        // Retrieve property and landlord details from the Intent
+        // Retrieve property and landlord details from Intent
         String propertyName = getIntent().getStringExtra("propertyName");
         String barangay = getIntent().getStringExtra("barangay");
         String address = getIntent().getStringExtra("address");
         String city = getIntent().getStringExtra("city");
-        landlordId = getIntent().getStringExtra("landlordId");
+        landlordId = getIntent().getStringExtra("landlordId"); // Directly received
         propertyId = getIntent().getStringExtra("propertyId");
 
-        // Display property details
         TextView tvPropertyName = findViewById(R.id.tv_property_name);
         TextView tvBarangay = findViewById(R.id.tv_barangay);
         TextView tvAddress = findViewById(R.id.tv_address);
@@ -72,6 +69,11 @@ public class SetSchedule extends AppCompatActivity {
             String scheduleDate = String.format("%d/%d/%d", day, month, year);
             String scheduleTime = String.format("%02d:%02d %s", hour, minute, amPm);
 
+            if (landlordId == null || propertyId == null) {
+                Toast.makeText(this, "Property or landlord information is missing.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Map<String, Object> scheduleData = new HashMap<>();
             scheduleData.put("propertyName", propertyName);
             scheduleData.put("barangay", barangay);
@@ -81,37 +83,28 @@ public class SetSchedule extends AppCompatActivity {
             scheduleData.put("time", scheduleTime);
             scheduleData.put("status", "Pending");
             scheduleData.put("tenantId", tenantUserId);
+            scheduleData.put("landlordId", landlordId);
 
-            // Save to tenant's subcollection
             db.collection("Tenants")
                     .document(tenantUserId)
                     .collection("Schedules")
                     .add(scheduleData)
-                    .addOnSuccessListener(documentReference -> {
-                        // Save to landlord's subcollection
-                        db.collection("Landlords")
-                                .document(landlordId)
-                                .collection("properties")
-                                .document(propertyId)
-                                .collection("Schedules")
-                                .add(scheduleData)
-                                .addOnSuccessListener(docRef -> {
-                                    new AlertDialog.Builder(SetSchedule.this)
-                                            .setTitle("Thank You!")
-                                            .setMessage("Your schedule has been set.\nDate: " + scheduleDate +
-                                                    "\nTime: " + scheduleTime +
-                                                    "\nProperty: " + propertyName +
-                                                    "\nPlease wait for the landlord's confirmation.")
-                                            .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
-                                            .show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(SetSchedule.this, "Failed to set schedule in landlord's data. Please try again.", Toast.LENGTH_SHORT).show();
-                                });
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(SetSchedule.this, "Failed to set schedule. Please try again.", Toast.LENGTH_SHORT).show();
-                    });
+                    .addOnSuccessListener(documentReference -> db.collection("Landlords")
+                            .document(landlordId)
+                            .collection("properties")
+                            .document(propertyId)
+                            .collection("Schedules")
+                            .add(scheduleData)
+                            .addOnSuccessListener(docRef -> new AlertDialog.Builder(SetSchedule.this)
+                                    .setTitle("Thank You!")
+                                    .setMessage("Your schedule has been set:\nDate: " + scheduleDate +
+                                            "\nTime: " + scheduleTime +
+                                            "\nProperty: " + propertyName +
+                                            "\nPlease wait for confirmation.")
+                                    .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                                    .show())
+                            .addOnFailureListener(e -> Toast.makeText(this, "Failed to save for landlord.", Toast.LENGTH_SHORT).show()))
+                    .addOnFailureListener(e -> Toast.makeText(this, "Failed to save for tenant.", Toast.LENGTH_SHORT).show());
         });
     }
 }

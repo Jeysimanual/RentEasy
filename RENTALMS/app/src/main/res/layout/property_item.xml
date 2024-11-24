@@ -23,7 +23,7 @@
             <ImageView
                 android:id="@+id/propertyImage"
                 android:layout_width="match_parent"
-                android:layout_height="76dp"
+                android:layout_height="match_parent"
                 android:background="@drawable/baseline_home"
                 android:backgroundTint="#2C40F8" />
 

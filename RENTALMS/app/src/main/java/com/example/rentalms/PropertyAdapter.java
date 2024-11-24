@@ -60,21 +60,27 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
 
             // Log values to ensure they're not null
             Log.d("EditButton", "Landlord ID: " + userId);
+            Log.d("EditButton", "Property ID: " + property.getPropertyId()); // Assuming you have property ID
             Log.d("EditButton", "Property Name: " + property.getPropertyName());
             Log.d("EditButton", "Barangay: " + property.getBarangay());
             Log.d("EditButton", "Address: " + property.getAddress());
             Log.d("EditButton", "City: " + property.getCity());
             Log.d("EditButton", "Price: " + property.getPrice());
             Log.d("EditButton", "Payment Period: " + property.getPaymentPeriod());
+            Log.d("EditButton", "Interior Image URL: " + property.getInteriorImageUrl());
+            Log.d("EditButton", "Exterior Image URL: " + property.getExteriorImageUrl());
 
             // Pass necessary data to EditProperty activity
             intent.putExtra("landlordId", userId);
+            intent.putExtra("propertyId", property.getPropertyId()); // Add this line
             intent.putExtra("propertyName", property.getPropertyName());
             intent.putExtra("barangay", property.getBarangay());
             intent.putExtra("address", property.getAddress());
             intent.putExtra("city", property.getCity());
             intent.putExtra("price", property.getPrice());
             intent.putExtra("paymentPeriod", property.getPaymentPeriod());
+            intent.putExtra("interiorImageUrl", property.getInteriorImageUrl()); // Add this line
+            intent.putExtra("exteriorImageUrl", property.getExteriorImageUrl()); // Add this line
 
             // Start the EditProperty activity
             holder.itemView.getContext().startActivity(intent);

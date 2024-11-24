@@ -7,7 +7,9 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -77,6 +80,47 @@ public class LandlordAddProperty extends AppCompatActivity {
 
         // Disable transformation method for the price edit text
         propertyPriceEditText.setTransformationMethod(null);
+
+        // Limit input in propertyPriceEditText to 6 digits and format with commas
+        propertyPriceEditText.addTextChangedListener(new TextWatcher() {
+            private String currentText = "";
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().equals(currentText)) {
+                    propertyPriceEditText.removeTextChangedListener(this);
+
+                    // Remove non-digit characters
+                    String cleanString = s.toString().replaceAll("[^\\d]", "");
+
+                    // Limit to 6 digits
+                    if (cleanString.length() > 6) {
+                        cleanString = cleanString.substring(0, 6);
+                    }
+
+                    // Parse the number and format it with commas
+                    try {
+                        long parsed = Long.parseLong(cleanString);
+                        String formatted = NumberFormat.getInstance().format(parsed);
+                        currentText = formatted;
+                        propertyPriceEditText.setText(formatted);
+                        propertyPriceEditText.setSelection(formatted.length()); // Set cursor to end
+                    } catch (NumberFormatException e) {
+                        Log.e("Formatting", "Number format error: " + e.getMessage());
+                    }
+
+                    propertyPriceEditText.addTextChangedListener(this);
+                }
+            }
+        });
 
         // Set up permission launcher
         requestPermissionLauncher = registerForActivityResult(

@@ -20,25 +20,23 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp" />
 
-        <!-- Property Name EditText -->
+        <!-- Property Name -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Property Name"
             android:textColor="@color/black"
             android:layout_marginTop="8dp" />
-
-        <!-- Barangay EditText -->
         <TextView
             android:id="@+id/propertyName"
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:paddingTop="8sp"
             android:textColor="@color/black"
             android:paddingStart="10sp"
             android:background="@drawable/input_box"
             android:textSize="15sp" />
 
+        <!-- Barangay -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +52,7 @@
             android:hint="Barangay"
             android:textSize="15sp" />
 
-        <!-- Address EditText -->
+        <!-- Address -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +68,7 @@
             android:hint="Address"
             android:textSize="15sp" />
 
-        <!-- City EditText -->
+        <!-- City -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +84,7 @@
             android:hint="City"
             android:textSize="15sp" />
 
-        <!-- Property Price EditText -->
+        <!-- Property Price -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,7 +100,7 @@
             android:hint="Property Price"
             android:textSize="15sp" />
 
-        <!-- Payment Period EditText -->
+        <!-- Payment Period -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -118,6 +116,50 @@
             android:paddingStart="10sp"
             android:textSize="15sp" />
 
+        <!-- Room Interior Image -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Room Interior Image"
+            android:textColor="@color/black"
+            android:layout_marginTop="16dp" />
+        <ImageView
+            android:id="@+id/img_room_interior"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="@color/lightgray"
+            android:layout_marginBottom="8dp" />
+        <Button
+            android:id="@+id/btn_upload_room_interior"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Room Interior Image"
+            android:background="@drawable/color_btn"
+            android:textColor="@color/white" />
+
+        <!-- Room Exterior Image -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Room Exterior Image"
+            android:textColor="@color/black"
+            android:layout_marginTop="16dp" />
+        <ImageView
+            android:id="@+id/img_bathroom_shower"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="@color/lightgray"
+            android:layout_marginBottom="8dp" />
+        <Button
+            android:id="@+id/btn_upload_bathroom_shower"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Room Exterior Image"
+            android:background="@drawable/color_btn"
+            android:textColor="@color/white" />
+
         <!-- Update Button -->
         <Button
             android:id="@+id/btn_update_property"
@@ -127,5 +169,6 @@
             android:textColor="@color/white"
             android:layout_marginTop="20dp"
             android:background="@drawable/color_btn" />
+
     </LinearLayout>
 </ScrollView>

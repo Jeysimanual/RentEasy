@@ -28,6 +28,7 @@ public class TenantPage extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private SearchView searchView;
     private String tenantId;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class TenantPage extends AppCompatActivity {
         tenantPropertyRecyclerView = findViewById(R.id.tenantPropertyRecyclerView);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         searchView = findViewById(R.id.searchView);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
         tenantPropertyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -75,8 +77,32 @@ public class TenantPage extends AppCompatActivity {
             }
         });
 
+        // Inside onCreate()
+        tenantPropertyRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private boolean isNavigationVisible = true; // Track visibility state
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0 && isNavigationVisible) {
+                    // User scrolls down; hide BottomNavigationView
+                    bottomNavigationView.animate()
+                            .translationY(bottomNavigationView.getHeight() + 20)
+                            .setDuration(20)
+                            .withEndAction(() -> isNavigationVisible = false);
+                } else if (dy < 0 && !isNavigationVisible) {
+                    // User scrolls up; show BottomNavigationView
+                    bottomNavigationView.animate()
+                            .translationY(0)
+                            .setDuration(0)
+                            .withEndAction(() -> isNavigationVisible = true);
+                }
+            }
+        });
+
+
         // Set up bottom navigation
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -136,7 +162,6 @@ public class TenantPage extends AppCompatActivity {
         });
     }
 
-
     private void filterProperties(String query) {
         ArrayList<Property> filteredList = new ArrayList<>();
         for (Property property : propertyList) {
@@ -147,3 +172,4 @@ public class TenantPage extends AppCompatActivity {
         propertyAdapter.updateList(filteredList);
     }
 }
+
