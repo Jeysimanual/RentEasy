@@ -30,6 +30,14 @@
             android:paddingBottom="10dp" />
 
         <TextView
+            android:id="@+id/tv_property_document_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Property Document ID: "
+            android:textSize="16sp"/>
+
+
+        <TextView
             android:id="@+id/tv_property_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -14,17 +14,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:layout_marginTop="10dp">
+        android:background="@color/white"
+       >
 
-        <androidx.appcompat.widget.SearchView
-            android:background="@drawable/input_box"
-            android:id="@+id/searchView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:queryHint="Search properties"
-            android:iconifiedByDefault="false"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Favorites"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
 
     </LinearLayout>
 
@@ -39,7 +40,7 @@
             android:id="@+id/tenantFav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
+            android:padding="10dp"
             android:clipToPadding="false"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

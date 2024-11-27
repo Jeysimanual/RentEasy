@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Margins and paddings -->
-    <dimen name="padding">16dp</dimen>
-    <dimen name="margin">8dp</dimen>
-
-    <!-- Image sizes -->
-    <dimen name="profile_image_size">100dp</dimen>
-
-    <!-- Text sizes -->
-    <dimen name="text_size_large">18sp</dimen>
-    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="layout_padding">16dp</dimen>
+    <dimen name="image_width">305dp</dimen>
+    <dimen name="image_height">180dp</dimen>
+    <dimen name="image_margin_top">20dp</dimen>
+    <dimen name="text_size_medium">15sp</dimen>
+    <dimen name="text_margin_top">20dp</dimen>
+    <dimen name="text_margin_bottom">5dp</dimen>
+    <dimen name="edit_text_height">48dp</dimen>
+    <dimen name="edit_text_margin_bottom">15dp</dimen>
+    <dimen name="edit_text_padding">10dp</dimen>
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="button_margin_top">25dp</dimen>
+    <dimen name="icon_size">40dp</dimen>
+    <dimen name="icon_padding">10dp</dimen>
 </resources>
