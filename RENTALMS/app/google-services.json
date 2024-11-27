@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:742250658401:android:a69c60af6e9fcb75ecc820",
+        "mobilesdk_app_id": "1:742250658401:android:1f452ec2e1139df5ecc820",
         "android_client_info": {
-          "package_name": "com.example.rentalms"
+          "package_name": "com.project.rentalms"
         }
       },
       "oauth_client": [],

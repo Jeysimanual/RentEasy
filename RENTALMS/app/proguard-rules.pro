@@ -1,4 +1,7 @@
 # Add project specific ProGuard rules here.
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.OpenSSLProvider
+
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.
 #

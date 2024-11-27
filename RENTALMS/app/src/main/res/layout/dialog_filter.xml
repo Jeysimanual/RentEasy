@@ -1,0 +1,44 @@
+<!-- dialog_filter.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <RadioGroup
+        android:id="@+id/radioGroupPriceRange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All" />
+
+        <RadioButton
+            android:id="@+id/radio1000to5000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₱1,000 - ₱5,000" />
+
+        <RadioButton
+            android:id="@+id/radio5000to10000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₱5,000 - ₱10,000" />
+
+        <RadioButton
+            android:id="@+id/radio10000to20000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₱10,000 - ₱20,000" />
+
+        <RadioButton
+            android:id="@+id/radioAbove20000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Above ₱20,000" />
+    </RadioGroup>
+</LinearLayout>

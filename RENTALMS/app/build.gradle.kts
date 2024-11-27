@@ -4,22 +4,22 @@ plugins {
 }
 
 android {
-    namespace = "com.example.rentalms"
+    namespace = "com.project.rentalms"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.rentalms"
+        applicationId = "com.project.rentalms"
         minSdk = 29
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 7
+        versionName = "1.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -65,5 +65,6 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.71828")
 
     implementation ("com.itextpdf:itext7-core:7.1.14")
+
 
 }
