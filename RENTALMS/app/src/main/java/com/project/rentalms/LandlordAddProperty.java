@@ -25,6 +25,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -42,6 +43,7 @@ public class LandlordAddProperty extends AppCompatActivity {
     private ImageView roomInteriorImageView, roomExteriorImageView;
 
     private FirebaseFirestore db;  // Firestore instance
+    private FirebaseAuth mAuth;    // Firebase Authentication instance
     private String landlordId;     // Landlord ID passed from login
     private Uri interiorImageUri = null, exteriorImageUri = null; // URIs to store selected images
 
@@ -57,8 +59,9 @@ public class LandlordAddProperty extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landlord_add_property);
 
-        // Initialize Firestore
+        // Initialize Firestore and Firebase Authentication
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         // Retrieve the landlord's unique ID from the previous activity
         landlordId = getIntent().getStringExtra("landlordId");
@@ -232,6 +235,9 @@ public class LandlordAddProperty extends AppCompatActivity {
         // Format price with "₱" symbol
         String formattedPrice = "₱" + propertyPrice;
 
+        // Get the landlord's email
+        String landlordEmail = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getEmail() : "";
+
         // Prepare the property data to be saved in Firestore
         HashMap<String, Object> propertyData = new HashMap<>();
         propertyData.put("propertyName", propertyName);
@@ -242,6 +248,7 @@ public class LandlordAddProperty extends AppCompatActivity {
         propertyData.put("barangay", barangay + ",");
         propertyData.put("address", address + ",");
         propertyData.put("paymentPeriod", paymentPeriod); // Add payment period to property data
+        propertyData.put("email", landlordEmail); // Add landlord's email
 
         // Track the number of completed uploads
         final int[] uploadCounter = {0};
@@ -285,7 +292,6 @@ public class LandlordAddProperty extends AppCompatActivity {
                     });
         }
     }
-
     // Method to upload an image to Firebase Storage and update the property data
     private void uploadImageToFirebase(Uri imageUri, String type, HashMap<String, Object> propertyData, int[] uploadCounter) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference("property_images/" + UUID.randomUUID().toString());
