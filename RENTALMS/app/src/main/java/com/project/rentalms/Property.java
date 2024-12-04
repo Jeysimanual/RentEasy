@@ -1,8 +1,9 @@
 package com.project.rentalms;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
+import java.util.List;
 
-
+@IgnoreExtraProperties
 public class Property {
 
     private String city;
@@ -16,6 +17,8 @@ public class Property {
     private String barangay;
     private String address;
     private String paymentPeriod;
+    private String description;
+    private List<String> features;  // Updated to List<String> for array of strings
     private Boolean isFavorite;  // Changed from primitive boolean to Boolean to handle null values
     private String propertyId;
 
@@ -26,7 +29,7 @@ public class Property {
     public Property(String city, String exteriorImageUrl, String interiorImageUrl,
                     String price, String paymentPeriod, String propertyName,
                     String province, String type, String barangay,
-                    String address, String propertyId) {
+                    String address, String description, List<String> features, String propertyId) {
         this.city = city;
         this.exteriorImageUrl = exteriorImageUrl;
         this.interiorImageUrl = interiorImageUrl;
@@ -38,6 +41,8 @@ public class Property {
         this.barangay = barangay;
         this.address = address;
         this.propertyId = propertyId;
+        this.description = description;
+        this.features = features;  // Set features as List<String>
     }
 
     // Getters and Setters
@@ -52,6 +57,12 @@ public class Property {
 
     public String getPrice() { return price; }
     public void setPrice(String price) { this.price = price; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public List<String> getFeatures() { return features; }  // Return List<String> for features
+    public void setFeatures(List<String> features) { this.features = features; }  // Accept List<String> for features
 
     public String getPaymentPeriod() { return paymentPeriod; }
     public void setPaymentPeriod(String paymentPeriod) { this.paymentPeriod = paymentPeriod; }

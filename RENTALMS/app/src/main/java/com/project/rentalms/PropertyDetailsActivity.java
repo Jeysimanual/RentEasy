@@ -1,5 +1,6 @@
 package com.project.rentalms;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -10,15 +11,18 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class PropertyDetailsActivity extends AppCompatActivity {
 
-    private TextView propertyNameTextView, barangayTextView, addressTextView, cityTextView, priceTextView, typeTextView;
+    private TextView propertyNameTextView, barangayTextView, addressTextView, cityTextView, priceTextView, typeTextView, descriptionTextView, featuresTextView;
     private ViewPager2 imageSlider;
     private TabLayout indicatorTabLayout;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,8 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         addressTextView = findViewById(R.id.addressDetails);
         cityTextView = findViewById(R.id.cityDetails);
         priceTextView = findViewById(R.id.priceDetails);
+        descriptionTextView = findViewById(R.id.Property_description);
+        featuresTextView = findViewById(R.id.features);
         typeTextView = findViewById(R.id.typeDetails);
         imageSlider = findViewById(R.id.imageSlider);
         indicatorTabLayout = findViewById(R.id.indicatorTabLayout);
@@ -42,15 +48,31 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         String price = getIntent().getStringExtra("price");
         String type = getIntent().getStringExtra("type");
         String paymentPeriod = getIntent().getStringExtra("paymentPeriod"); // Retrieve paymentPeriod
+        String description = getIntent().getStringExtra("description");
         String exteriorImageUrl = getIntent().getStringExtra("exteriorImageUrl");
         String interiorImageUrl = getIntent().getStringExtra("interiorImageUrl");
         String userId = getIntent().getStringExtra("userId");
 
+        // Retrieve features as a list of strings
+        ArrayList<String> featuresList = getIntent().getStringArrayListExtra("features");
+
+        // Format features into a readable string
+        StringJoiner featuresJoiner = new StringJoiner("\n");  // Use newline to separate features
+        if (featuresList != null && !featuresList.isEmpty()) {
+            for (String feature : featuresList) {
+                featuresJoiner.add(feature);  // Add each feature to the Joiner
+            }
+        } else {
+            featuresJoiner.add("No features available.");
+        }
+        String formattedFeatures = featuresJoiner.toString();
         // Set data to views
         propertyNameTextView.setText(propertyName);
         barangayTextView.setText(barangay);
         addressTextView.setText(address);
         cityTextView.setText(city);
+        descriptionTextView.setText(description);
+        featuresTextView.setText(formattedFeatures);  // Set the formatted features
         priceTextView.setText("Price:" + price + " " + paymentPeriod); // Set price with payment period
         typeTextView.setText("Type: " + type);
 
@@ -68,11 +90,11 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                 }).attach();
 
         // Add inquire section fragment
-        addInquireSectionFragment(propertyName, type, barangay, address, city, province, price, paymentPeriod, userId);
+        addInquireSectionFragment(propertyName, type, barangay, address, city, province, price, paymentPeriod, description, userId);
     }
 
     // Method to show the overlay fragment
-    public void showInquireOverlayFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod, String userId) {
+    public void showInquireOverlayFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod,String description, String userId) {
         InquireOverlayFragment inquireOverlayFragment = new InquireOverlayFragment();
         Bundle bundle = new Bundle();
         bundle.putString("propertyName", propertyName);
@@ -83,6 +105,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         bundle.putString("province", province);
         bundle.putString("price", price);
         bundle.putString("paymentPeriod", paymentPeriod); // Pass paymentPeriod to overlay fragment
+        bundle.putString("description", description);
         bundle.putString("userId", userId);
         inquireOverlayFragment.setArguments(bundle);
 
@@ -93,7 +116,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void addInquireSectionFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod, String userId) {
+    private void addInquireSectionFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod, String description, String userId) {
         InquireSectionFragment inquireSectionFragment = new InquireSectionFragment();
 
         // Set up the bundle with property data
@@ -106,7 +129,9 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         bundle.putString("province", province);
         bundle.putString("price", price);
         bundle.putString("paymentPeriod", paymentPeriod); // Add paymentPeriod to bundle
+        bundle.putString("description", description);
         bundle.putString("userId", userId);
+
 
         inquireSectionFragment.setArguments(bundle);
 

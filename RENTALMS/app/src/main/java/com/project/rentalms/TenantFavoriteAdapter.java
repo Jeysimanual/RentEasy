@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TenantFavoriteAdapter extends RecyclerView.Adapter<TenantFavoriteAdapter.ViewHolder> {
 
@@ -65,7 +66,7 @@ public class TenantFavoriteAdapter extends RecyclerView.Adapter<TenantFavoriteAd
         }
 
         Glide.with(context)
-                .load(property.getExteriorImageUrl())
+                .load(property.getInteriorImageUrl())
                 .placeholder(R.drawable.default_image)
                 .into(holder.propertyImageView);
 
@@ -91,7 +92,7 @@ public class TenantFavoriteAdapter extends RecyclerView.Adapter<TenantFavoriteAd
                             Toast.makeText(context, "Failed to remove favorite", Toast.LENGTH_SHORT).show()
                     );
         });
-
+        List<String> featuresList = property.getFeatures();
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PropertyDetailsActivity.class);
             intent.putExtra("userId", property.getUserId());
@@ -104,6 +105,8 @@ public class TenantFavoriteAdapter extends RecyclerView.Adapter<TenantFavoriteAd
             intent.putExtra("interiorImageUrl", property.getInteriorImageUrl());
             intent.putExtra("barangay", property.getBarangay());
             intent.putExtra("address", property.getAddress());
+            intent.putExtra("description", property.getDescription());
+            intent.putStringArrayListExtra("features", new ArrayList<>(featuresList));
             context.startActivity(intent);
         });
     }

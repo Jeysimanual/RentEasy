@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAdapter.ViewHolder> {
 
@@ -93,7 +94,7 @@ public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAd
                 Toast.makeText(context, "Property removed from favorites", Toast.LENGTH_SHORT).show();
             }
         });
-
+        List<String> featuresList = property.getFeatures();
         // Set click listener for item view to open property details
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PropertyDetailsActivity.class);
@@ -103,11 +104,13 @@ public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAd
             intent.putExtra("city", property.getCity());
             intent.putExtra("price", property.getPrice());
             intent.putExtra("type", property.getType());
+            intent.putExtra("description", property.getDescription());
             intent.putExtra("exteriorImageUrl", property.getExteriorImageUrl());
             intent.putExtra("interiorImageUrl", property.getInteriorImageUrl());
             intent.putExtra("barangay", property.getBarangay());
             intent.putExtra("address", property.getAddress());
             intent.putExtra("paymentPeriod", property.getPaymentPeriod());
+            intent.putStringArrayListExtra("features", new ArrayList<>(featuresList));  // Pass list of features
             context.startActivity(intent);
         });
     }

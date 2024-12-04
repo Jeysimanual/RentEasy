@@ -24,7 +24,9 @@ public class InquireSectionFragment extends Fragment {
     private String province;
     private String price;
     private String paymentPeriod;
+    private String description;
     private String userId;
+
 
     @Nullable
     @Override
@@ -40,7 +42,9 @@ public class InquireSectionFragment extends Fragment {
             province = getArguments().getString("province", "Province");
             price = getArguments().getString("price", "Price");
             paymentPeriod = getArguments().getString("paymentPeriod", "Period"); // Retrieve paymentPeriod
+            description = getArguments().getString("description", "Description");
             userId = getArguments().getString("userId", "UserId");
+
         }
 
         priceTextView = view.findViewById(R.id.priceTextView);
@@ -51,7 +55,7 @@ public class InquireSectionFragment extends Fragment {
         inquireButton = view.findViewById(R.id.inquireButton);
         inquireButton.setOnClickListener(v -> {
             ((PropertyDetailsActivity) getActivity()).showInquireOverlayFragment(
-                    propertyName, type, barangay, address, city, province, price, paymentPeriod, userId);
+                    propertyName, type, barangay, address, city, province, price, paymentPeriod, userId, description);
         });
 
         return view;

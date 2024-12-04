@@ -78,6 +78,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
             intent.putExtra("address", property.getAddress());
             intent.putExtra("city", property.getCity());
             intent.putExtra("price", property.getPrice());
+            intent.putExtra("description", property.getDescription());
             intent.putExtra("paymentPeriod", property.getPaymentPeriod());
             intent.putExtra("interiorImageUrl", property.getInteriorImageUrl()); // Add this line
             intent.putExtra("exteriorImageUrl", property.getExteriorImageUrl()); // Add this line

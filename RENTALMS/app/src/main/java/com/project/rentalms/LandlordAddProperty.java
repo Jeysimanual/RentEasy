@@ -1,6 +1,7 @@
 package com.project.rentalms;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -32,15 +34,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class LandlordAddProperty extends AppCompatActivity {
 
     private Button addPropertyButton, uploadRoomInteriorButton, uploadRoomExteriorButton;
-    private EditText propertyNameEditText, propertyPriceEditText, barangayEditText, addressEditText;
+    private EditText propertyNameEditText, propertyPriceEditText, barangayEditText, addressEditText, descriptionEditText;
     private Spinner propertyTypeSpinner, provinceSpinner, citySpinner, paymentPeriodSpinner;
     private ImageView roomInteriorImageView, roomExteriorImageView;
+
+    private CheckBox studyHubCheckBox, parkingCheckBox, bedroomCheckBox, kitchenCheckBox,bathroomCheckbox;
+
 
     private FirebaseFirestore db;  // Firestore instance
     private FirebaseAuth mAuth;    // Firebase Authentication instance
@@ -54,6 +61,7 @@ public class LandlordAddProperty extends AppCompatActivity {
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
     private ActivityResultLauncher<Intent> choosePictureLauncher;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +84,16 @@ public class LandlordAddProperty extends AppCompatActivity {
         propertyTypeSpinner = findViewById(R.id.property_type_spinner);
         provinceSpinner = findViewById(R.id.province_spinner);
         citySpinner = findViewById(R.id.city_spinner);
+        descriptionEditText = findViewById(R.id.property_description);
         uploadRoomInteriorButton = findViewById(R.id.btn_upload_room_interior);
         uploadRoomExteriorButton = findViewById(R.id.btn_upload_bathroom_shower);
         roomInteriorImageView = findViewById(R.id.img_room_interior);
         roomExteriorImageView = findViewById(R.id.img_bathroom_shower);
+         studyHubCheckBox = findViewById(R.id.studyhub);
+         parkingCheckBox = findViewById(R.id.parking);
+         bedroomCheckBox = findViewById(R.id.bedroom);
+         kitchenCheckBox = findViewById(R.id.kitchen);
+         bathroomCheckbox = findViewById(R.id.bathroom);
 
         // Disable transformation method for the price edit text
         propertyPriceEditText.setTransformationMethod(null);
@@ -223,6 +237,8 @@ public class LandlordAddProperty extends AppCompatActivity {
         String barangay = barangayEditText.getText().toString().trim();
         String address = addressEditText.getText().toString().trim();
         String paymentPeriod = paymentPeriodSpinner.getSelectedItem().toString(); // Get payment period
+        String description = descriptionEditText.getText().toString().trim();
+
 
         // Validate the input
         if (TextUtils.isEmpty(propertyName) || TextUtils.isEmpty(propertyPrice) ||
@@ -238,6 +254,21 @@ public class LandlordAddProperty extends AppCompatActivity {
         // Get the landlord's email
         String landlordEmail = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getEmail() : "";
 
+        List<String> selectedFeatures = new ArrayList<>();
+
+        if (bedroomCheckBox.isChecked()) {
+            selectedFeatures.add("Bedroom");
+        }if (bathroomCheckbox.isChecked()) {
+            selectedFeatures.add("Bathroom");
+        }if (studyHubCheckBox.isChecked()) {
+            selectedFeatures.add("Study Hub");
+        }if (parkingCheckBox.isChecked()) {
+            selectedFeatures.add("Parking");
+        }if (kitchenCheckBox.isChecked()) {
+            selectedFeatures.add("Kitchen");
+        }
+
+
         // Prepare the property data to be saved in Firestore
         HashMap<String, Object> propertyData = new HashMap<>();
         propertyData.put("propertyName", propertyName);
@@ -248,7 +279,9 @@ public class LandlordAddProperty extends AppCompatActivity {
         propertyData.put("barangay", barangay + ",");
         propertyData.put("address", address + ",");
         propertyData.put("paymentPeriod", paymentPeriod); // Add payment period to property data
+        propertyData.put("description", description);
         propertyData.put("email", landlordEmail); // Add landlord's email
+        propertyData.put("features", selectedFeatures);
 
         // Track the number of completed uploads
         final int[] uploadCounter = {0};
@@ -355,6 +388,7 @@ public class LandlordAddProperty extends AppCompatActivity {
     private void clearInputFields() {
         propertyNameEditText.setText("");
         propertyPriceEditText.setText("");
+        descriptionEditText.setText("");
         paymentPeriodSpinner.setSelection(0); // Reset to first item
         barangayEditText.setText("");  // Clear Barangay
         addressEditText.setText("");   // Clear Address

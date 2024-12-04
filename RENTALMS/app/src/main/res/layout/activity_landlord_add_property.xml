@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        >
 
         <TextView
             android:id="@+id/landlordWelcome"
@@ -200,6 +200,468 @@
                     android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_box"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Rental Features"
+                android:textColor="@color/black"
+                android:paddingStart="10sp"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+            <CheckBox
+                android:id="@+id/bedroom"
+                android:layout_width="@dimen/box_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Bedroom"
+                android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/baseline_bed" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_box"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/bathroom"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Bathroom"
+                    android:textAlignment="center" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/baseline_bathroom_24" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/studyhub"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Study Hub"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_book"
+                    android:layout_marginEnd="5dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/parking"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Parking"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/baseline_parking"
+                    android:layout_marginEnd="5dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/kitchen"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Kitchen"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/kitchen_image" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/community"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Community Area"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/commnuty_area" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+            <CheckBox
+                android:id="@+id/swimming"
+                android:layout_width="@dimen/box_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Swimming Pool"
+                android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_pool"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+            <CheckBox
+                android:id="@+id/fitness"
+                android:layout_width="@dimen/box_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Fitness Gym"
+                android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_fitness"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+                <CheckBox
+                    android:id="@+id/music"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Music Room"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_music"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Other details"
+                android:textColor="@color/black"
+                android:paddingStart="10sp"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+                <CheckBox
+                    android:id="@+id/single"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Single Bed"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_single"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+                <CheckBox
+                    android:id="@+id/pet"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Pets"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_pets"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+                <CheckBox
+                    android:id="@+id/sofa"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Sofa"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_sofa"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+                <CheckBox
+                    android:id="@+id/television"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Television"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_tv"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+                <CheckBox
+                    android:id="@+id/shower"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Shower"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_shower"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+                <CheckBox
+                    android:id="@+id/wifi"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Wifi / Internet"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:background="@drawable/baseline_wifi"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/input_box"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/smoke"
+                    android:layout_width="@dimen/box_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Smoke Detector"
+                    android:textAlignment="center"/>
+
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/smoke_detector" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Property Description"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginTop="15dp"/>
+        <EditText
+            android:id="@+id/property_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="no description provided"
+            android:textColorHint="@color/black"
+            android:textSize="15dp"
+            android:inputType="textMultiLine|textCapSentences"
+            android:background="@drawable/input_box"
+            android:minHeight="150dp"
+            android:gravity="top|start"
+            android:layout_marginTop="10dp"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp"/>
         <!-- Label and Upload button for Room Interior -->
         <TextView
             android:layout_width="wrap_content"

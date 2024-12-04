@@ -80,7 +80,6 @@
                 <ImageView
                     android:id="@+id/lock"
                     android:layout_width="@dimen/icon_size"
-                    android:background="@drawable/input_box"
                     android:layout_height="match_parent"
                     android:padding="@dimen/icon_padding"
                     android:layout_alignParentEnd="true"
