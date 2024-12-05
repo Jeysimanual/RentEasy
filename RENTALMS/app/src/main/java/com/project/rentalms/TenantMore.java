@@ -27,7 +27,7 @@ public class TenantMore extends AppCompatActivity {
     FirebaseFirestore firestore;
     LinearLayout myAccount;
     LinearLayout changepass;
-
+    LinearLayout favoritebtn;
     LinearLayout schedulebtn;
     ImageView profileImageView;  // Update to use profile_picture ID
 
@@ -93,9 +93,17 @@ public class TenantMore extends AppCompatActivity {
             Intent intent = new Intent(TenantMore.this, ChangePassword.class);
             startActivity(intent);
         });
+
         schedulebtn = findViewById(R.id.schedulebtn);
         schedulebtn.setOnClickListener(view -> {
             Intent intent = new Intent(TenantMore.this, ScheduleVisit.class);
+            startActivity(intent);
+        });
+
+        favoritebtn = findViewById(R.id.favoritebtn);
+        favoritebtn.setOnClickListener(view -> {
+            Intent intent = new Intent(TenantMore.this, TenantFavorite.class);
+            intent.putExtra("tenantId", tenantId);
             startActivity(intent);
         });
 

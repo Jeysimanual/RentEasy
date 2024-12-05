@@ -25,6 +25,7 @@ public class LandlordMore extends AppCompatActivity {
 
     LinearLayout MyAccount; // Declare LinearLayout for My Account
     LinearLayout changepass;
+    LinearLayout workbtn;
     LinearLayout visitSchedule;
 
 
@@ -87,6 +88,12 @@ public class LandlordMore extends AppCompatActivity {
         visitSchedule.setOnClickListener(view -> {
             // Navigate to ChangePassword activity when "Change Password" is clicked
             Intent intent = new Intent(LandlordMore.this, LandlordSchedule.class);
+            startActivity(intent);
+        });
+
+        workbtn = findViewById(R.id.workbtn);
+        workbtn.setOnClickListener(view -> {
+            Intent intent = new Intent(LandlordMore.this, LandlordPage.class);
             startActivity(intent);
         });
 

@@ -51,7 +51,8 @@ public class Login extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            mAuth.signOut();
+            // If the user is already logged in, skip the login process and go to the user page
+            checkUserType(currentUser.getUid());
         }
 
         // Initially, password is hidden, and the lock icon is visible
@@ -187,4 +188,30 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
+    // Listen to authentication state changes
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (authStateListener != null) {
+            mAuth.removeAuthStateListener(authStateListener);
+        }
+    }
+
+    // Create an auth state listener to handle login status changes
+    FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in, check the user type
+            checkUserType(user.getUid());
+        } else {
+            // User is not signed in, stay on the login screen
+        }
+    };
 }

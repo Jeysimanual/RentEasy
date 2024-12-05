@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -46,9 +47,11 @@ public class LandlordAddProperty extends AppCompatActivity {
     private Spinner propertyTypeSpinner, provinceSpinner, citySpinner, paymentPeriodSpinner;
     private ImageView roomInteriorImageView, roomExteriorImageView;
 
-    private CheckBox studyHubCheckBox, parkingCheckBox, bedroomCheckBox, kitchenCheckBox,bathroomCheckbox;
+    private CheckBox studyHubCheckBox, parkingCheckBox, bedroomCheckBox, kitchenCheckBox,bathroomCheckbox, communityCheckbox, poolCheckbox, gymCheckbox, musicCheckbox;
 
+    private CheckBox singleCheckbox, petCheckbox, sofaCheckbox,tvCheckbox,showerCheckbox ,wifiCheckbox,airconCheckbox,smokeCheckbox,refrigeratorCheckbox;
 
+    private TextView backbutton;
     private FirebaseFirestore db;  // Firestore instance
     private FirebaseAuth mAuth;    // Firebase Authentication instance
     private String landlordId;     // Landlord ID passed from login
@@ -94,6 +97,27 @@ public class LandlordAddProperty extends AppCompatActivity {
          bedroomCheckBox = findViewById(R.id.bedroom);
          kitchenCheckBox = findViewById(R.id.kitchen);
          bathroomCheckbox = findViewById(R.id.bathroom);
+         communityCheckbox = findViewById(R.id.community);
+         poolCheckbox = findViewById(R.id.swimming);
+         gymCheckbox = findViewById(R.id.fitness);
+         musicCheckbox = findViewById(R.id.music);
+         singleCheckbox = findViewById(R.id.single);
+         petCheckbox = findViewById(R.id.pet);
+         sofaCheckbox = findViewById(R.id.sofa);
+         tvCheckbox = findViewById(R.id.television);
+         showerCheckbox = findViewById(R.id.shower);
+         wifiCheckbox = findViewById(R.id.wifi);
+         airconCheckbox = findViewById(R.id.aircon);
+         smokeCheckbox = findViewById(R.id.smoke);
+         refrigeratorCheckbox = findViewById(R.id.refrigerator);
+         backbutton = findViewById(R.id.backbtn);
+
+// Back button click listener
+        backbutton.setOnClickListener(v -> {
+            Intent intent = new Intent(LandlordAddProperty.this, LandlordPage.class);
+            startActivity(intent);
+            finish();
+        });
 
         // Disable transformation method for the price edit text
         propertyPriceEditText.setTransformationMethod(null);
@@ -266,6 +290,32 @@ public class LandlordAddProperty extends AppCompatActivity {
             selectedFeatures.add("Parking");
         }if (kitchenCheckBox.isChecked()) {
             selectedFeatures.add("Kitchen");
+        }if (communityCheckbox.isChecked()) {
+            selectedFeatures.add("Community Area");
+        }if (poolCheckbox.isChecked()) {
+            selectedFeatures.add("Swimming Pool");
+        }if (gymCheckbox.isChecked()) {
+            selectedFeatures.add("Fitness Gym");
+        }if (musicCheckbox.isChecked()) {
+            selectedFeatures.add("Music Room");
+        }if (singleCheckbox.isChecked()) {
+            selectedFeatures.add("Single Bed");
+        }if (petCheckbox.isChecked()) {
+            selectedFeatures.add("Pets");
+        }if (sofaCheckbox.isChecked()) {
+            selectedFeatures.add("Sofa");
+        }if (tvCheckbox.isChecked()) {
+            selectedFeatures.add("Television");
+        }if (showerCheckbox.isChecked()) {
+            selectedFeatures.add("Shower");
+        }if (wifiCheckbox.isChecked()) {
+            selectedFeatures.add("Wifi / Internet");
+        }if (smokeCheckbox.isChecked()) {
+            selectedFeatures.add("Smoke Detector");
+        }if (airconCheckbox.isChecked()) {
+            selectedFeatures.add("Air Conditioner");
+        }if (refrigeratorCheckbox.isChecked()) {
+            selectedFeatures.add("Refrigerator");
         }
 
 
