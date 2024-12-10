@@ -43,8 +43,10 @@ public class LandlordSchedule extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         scheduleList = new ArrayList<>();
-        adapter = new ScheduleAdapter(scheduleList);
+        // When setting up the adapter in LandlordSchedule:
+        adapter = new ScheduleAdapter(scheduleList, this); // 'this' refers to the LandlordSchedule activity
         recyclerView.setAdapter(adapter);
+
 
         // Load landlord's schedules
         loadLandlordSchedules();
@@ -57,16 +59,19 @@ public class LandlordSchedule extends AppCompatActivity {
             // Fetch properties owned by the landlord
             db.collection("Landlords")
                     .document(userId)
-                    .collection("Properties")
+                    .collection("properties")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             ArrayList<String> ownedProperties = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String propertyName = document.getString("propertyName");
-                                if (propertyName != null) {
-                                    ownedProperties.add(propertyName);
-                                    Log.d("LandlordSchedule", "Property found: " + propertyName);
+                                // Instead of propertyName, fetch email
+                                String email = document.getString("email");
+                                String propertyId = document.getId(); // Retrieve property ID
+
+                                if (email != null) {
+                                    ownedProperties.add(propertyId); // Store property ID
+                                    Log.d("LandlordSchedule", "Property email found: " + email);
                                 }
                             }
 
@@ -87,67 +92,56 @@ public class LandlordSchedule extends AppCompatActivity {
         }
     }
 
+
     private void loadSchedulesForProperties(ArrayList<String> ownedProperties) {
-        db.collection("Tenants")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
-                        Date today = new Date();
+        for (String propertyId : ownedProperties) {
+            // Fetch schedules for each property directly from the "Schedules" sub-collection under the property
+            db.collection("Landlords")
+                    .document(auth.getCurrentUser().getUid())
+                    .collection("properties")
+                    .document(propertyId)
+                    .collection("Schedules") // Directly under Properties
+                    .get()
+                    .addOnCompleteListener(scheduleTask -> {
+                        if (scheduleTask.isSuccessful()) {
+                            SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
+                            Date today = new Date();
 
-                        for (QueryDocumentSnapshot tenantDoc : task.getResult()) {
-                            String tenantId = tenantDoc.getId();
-                            // Fetch tenant's schedules
-                            db.collection("Tenants")
-                                    .document(tenantId)
-                                    .collection("Schedules")
-                                    .get()
-                                    .addOnCompleteListener(scheduleTask -> {
-                                        if (scheduleTask.isSuccessful()) {
-                                            for (QueryDocumentSnapshot scheduleDoc : scheduleTask.getResult()) {
-                                                String propertyName = scheduleDoc.getString("propertyName");
-                                                String date = scheduleDoc.getString("date");
-                                                String time = scheduleDoc.getString("time");
-                                                String status = scheduleDoc.getString("status");
+                            for (QueryDocumentSnapshot scheduleDoc : scheduleTask.getResult()) {
+                                String propertyName = scheduleDoc.getString("propertyName");
+                                String date = scheduleDoc.getString("date");
+                                String time = scheduleDoc.getString("time");
+                                String status = scheduleDoc.getString("status");
 
-                                                // New fields added: barangay, address, city
-                                                String barangay = scheduleDoc.getString("barangay");
-                                                String address = scheduleDoc.getString("address");
-                                                String city = scheduleDoc.getString("city");
+                                // New fields added: barangay, address, city
+                                String barangay = scheduleDoc.getString("barangay");
+                                String address = scheduleDoc.getString("address");
+                                String city = scheduleDoc.getString("city");
 
-                                                // Log the schedule data
-                                                Log.d("LandlordSchedule", "Schedule found for property: " + propertyName + " on " + date);
+                                // Log the schedule data
+                                Log.d("LandlordSchedule", "Schedule found for property: " + propertyName + " on " + date);
 
-                                                // Only add the schedule if the property name is in the landlord's owned properties
-                                                if (ownedProperties.contains(propertyName)) {
-                                                    try {
-                                                        Date scheduleDate = sdf.parse(date);
+                                try {
+                                    Date scheduleDate = sdf.parse(date);
 
-                                                        if (!isDateBeforeToday(scheduleDate, today)) {
-                                                            // Add the schedule to the list
-                                                            scheduleList.add(new Schedule(date, time, status, propertyName, barangay, address, city));
-                                                        }
-                                                    } catch (ParseException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            }
+                                    if (!isDateBeforeToday(scheduleDate, today)) {
+                                        // Add the schedule to the list
+                                        scheduleList.add(new Schedule(date, time, status, propertyName, barangay, address, city));
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
-                                            // Sort and update the adapter
-                                            sortSchedules();
-                                            adapter.notifyDataSetChanged();
-                                        } else {
-                                            // Handle permission denied
-                                            Log.e("FirestoreError", "Error fetching schedules: " + scheduleTask.getException());
-                                            Toast.makeText(LandlordSchedule.this, "Failed to load schedules. Check permissions.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                            // Sort and update the adapter
+                            sortSchedules();
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            Log.e("FirestoreError", "Error fetching schedules: " + scheduleTask.getException());
+                            Toast.makeText(LandlordSchedule.this, "Failed to load schedules", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Log.e("FirestoreError", "Error fetching tenants: " + task.getException());
-                        Toast.makeText(this, "Failed to load tenants", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+        }
     }
 
     private boolean isDateBeforeToday(Date scheduleDate, Date today) {

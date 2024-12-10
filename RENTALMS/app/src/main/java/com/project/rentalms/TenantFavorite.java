@@ -22,6 +22,7 @@ public class TenantFavorite extends AppCompatActivity {
     private TenantFavoriteAdapter favoriteAdapter;
     private ArrayList<Property> favoritePropertyList;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private BottomNavigationView bottomNavigationView;
     private String tenantId;
 
     @Override
@@ -34,6 +35,7 @@ public class TenantFavorite extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         favoritePropertyRecyclerView = findViewById(R.id.tenantFav);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
 
         favoritePropertyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -46,6 +48,29 @@ public class TenantFavorite extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             favoritePropertyList.clear();  // Clear list before reloading
             loadFavoriteProperties();
+        });
+        // Inside onCreate()
+        favoritePropertyRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private boolean isNavigationVisible = true; // Track visibility state
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0 && isNavigationVisible) {
+                    // User scrolls down; hide BottomNavigationView
+                    bottomNavigationView.animate()
+                            .translationY(bottomNavigationView.getHeight() + 20)
+                            .setDuration(20)
+                            .withEndAction(() -> isNavigationVisible = false);
+                } else if (dy < 0 && !isNavigationVisible) {
+                    // User scrolls up; show BottomNavigationView
+                    bottomNavigationView.animate()
+                            .translationY(0)
+                            .setDuration(0)
+                            .withEndAction(() -> isNavigationVisible = true);
+                }
+            }
         });
 
         // Set up bottom navigation

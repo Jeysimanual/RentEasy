@@ -18,7 +18,7 @@
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="@drawable/input_box"
             android:iconifiedByDefault="false"
@@ -26,9 +26,10 @@
 
         <ImageView
             android:id="@+id/filter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/baseline_filter"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/filter1"/>
 
     </LinearLayout>
 

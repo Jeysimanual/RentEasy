@@ -11,9 +11,10 @@
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Scheduled Visits"
+        android:text="Visit Schedule"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:gravity="center"
         android:paddingBottom="8dp" />
 

@@ -1,5 +1,6 @@
 package com.project.rentalms;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -51,6 +52,12 @@ public class SetSchedule extends AppCompatActivity {
         DatePicker datePicker = findViewById(R.id.date_picker);
         TimePicker timePicker = findViewById(R.id.time_picker);
         Button btnSetSchedule = findViewById(R.id.btn_set_schedule);
+        Button btnMySchedule = findViewById(R.id.btn_my_schedule);
+
+        btnMySchedule.setOnClickListener(view -> {
+            Intent intent = new Intent(SetSchedule.this, ScheduleVisit.class);
+            startActivity(intent);
+        });
 
         Calendar calendar = Calendar.getInstance();
         datePicker.setMinDate(calendar.getTimeInMillis());
@@ -74,6 +81,7 @@ public class SetSchedule extends AppCompatActivity {
                 return;
             }
 
+            // Create schedule data
             Map<String, Object> scheduleData = new HashMap<>();
             scheduleData.put("propertyName", propertyName);
             scheduleData.put("barangay", barangay);
@@ -84,27 +92,32 @@ public class SetSchedule extends AppCompatActivity {
             scheduleData.put("status", "Pending");
             scheduleData.put("tenantId", tenantUserId);
 
-
-            db.collection("Tenants")
-                    .document(tenantUserId)
+            // Save only in the landlord's collection
+            db.collection("Landlords")
+                    .document(landlordId)
+                    .collection("properties")
+                    .document(propertyId)
                     .collection("Schedules")
                     .add(scheduleData)
-                    .addOnSuccessListener(documentReference -> db.collection("Landlords")
-                            .document(landlordId)
-                            .collection("properties")
-                            .document(propertyId)
-                            .collection("Schedules")
-                            .add(scheduleData)
-                            .addOnSuccessListener(docRef -> new AlertDialog.Builder(SetSchedule.this)
-                                    .setTitle("Thank You!")
-                                    .setMessage("Your schedule has been set:\nDate: " + scheduleDate +
-                                            "\nTime: " + scheduleTime +
-                                            "\nProperty: " + propertyName +
-                                            "\nPlease wait for confirmation.")
-                                    .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
-                                    .show())
-                            .addOnFailureListener(e -> Toast.makeText(this, "Failed to save for landlord.", Toast.LENGTH_SHORT).show()))
-                    .addOnFailureListener(e -> Toast.makeText(this, "Failed to save for tenant.", Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(documentReference -> {
+                        // Save the schedule in the tenant's collection as well
+                        db.collection("Tenants")
+                                .document(tenantUserId)
+                                .collection("Schedules")
+                                .add(scheduleData)
+                                .addOnSuccessListener(tenantDocRef -> {
+                                    new AlertDialog.Builder(SetSchedule.this)
+                                            .setTitle("Thank You!")
+                                            .setMessage("Your schedule has been set:\nDate: " + scheduleDate +
+                                                    "\nTime: " + scheduleTime +
+                                                    "\nProperty: " + propertyName +
+                                                    "\nPlease wait for confirmation.")
+                                            .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                                            .show();
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(this, "Failed to save the schedule in Tenant's collection.", Toast.LENGTH_SHORT).show());
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(this, "Failed to save the schedule in Landlord's collection.", Toast.LENGTH_SHORT).show());
         });
     }
 }

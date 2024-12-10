@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +32,9 @@ public class InquireOverlayFragment extends Fragment {
     private String userId;
     private FirebaseFirestore db;
     private Bundle userCredentialsBundle;
+    private String landlordId;
+    private FirebaseAuth mAuth;
+    private String propertyId;
 
     private TextView inquireTitle, inquireSubtitle;
 
@@ -48,6 +52,7 @@ public class InquireOverlayFragment extends Fragment {
         messageButton = view.findViewById(R.id.messageButton);
         scheduleVisitButton = view.findViewById(R.id.scheduleVisitButton);
         cancelButton = view.findViewById(R.id.cancelButton);
+        mAuth = FirebaseAuth.getInstance();
 
 
         if (getArguments() != null) {
@@ -56,9 +61,15 @@ public class InquireOverlayFragment extends Fragment {
             city = getArguments().getString("city", "City");
             province = getArguments().getString("province", "Province");
             price = getArguments().getString("price", "Price");
-            userId = getArguments().getString("userId", "UserId");
+            propertyId = getArguments().getString("propertyId", "PropertyId");
+
+            landlordId = getArguments().getString("landlordId", "LandlordId");
+
+            Log.e("InquireOverlayFragment", "Landlord ID: " + landlordId);
 
         }
+
+        userId = mAuth.getCurrentUser().getUid();
 
         getUserCreds(userId);
 
@@ -122,6 +133,11 @@ public class InquireOverlayFragment extends Fragment {
                     userCredentialsBundle.putString("lastName", document.getString("lastName"));
                     userCredentialsBundle.putString("mobile", document.getString("mobile"));
                     userCredentialsBundle.putString("email", document.getString("email"));
+                    userCredentialsBundle.putString("propertyId", propertyId);
+                    Log.e("Credentials", "Property ID: " + propertyId);
+                    userCredentialsBundle.putString("landlordId", landlordId);
+                    userCredentialsBundle.putString("userId", userID);
+
 
                     Log.d("Credentials", "User data stored in Bundle for later use");
                 } else {

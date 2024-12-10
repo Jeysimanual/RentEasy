@@ -98,7 +98,8 @@ public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAd
         // Set click listener for item view to open property details
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PropertyDetailsActivity.class);
-            intent.putExtra("userId", property.getUserId());
+            intent.putExtra("userId", tenantId);
+            Log.e("TenantPropertyAdapter", "Tenant ID: " + tenantId);
             intent.putExtra("propertyName", property.getPropertyName());
             intent.putExtra("province", property.getProvince());
             intent.putExtra("city", property.getCity());
@@ -110,7 +111,10 @@ public class TenantPropertyAdapter extends RecyclerView.Adapter<TenantPropertyAd
             intent.putExtra("barangay", property.getBarangay());
             intent.putExtra("address", property.getAddress());
             intent.putExtra("paymentPeriod", property.getPaymentPeriod());
-            intent.putStringArrayListExtra("features", new ArrayList<>(featuresList));  // Pass list of features
+            intent.putStringArrayListExtra("features", new ArrayList<>(featuresList));
+            intent.putExtra("propertyId", property.getPropertyId());
+            Log.e("TenantPropertyAdapter", "Property ID: " + property.getPropertyId());
+            // Pass list of features
             context.startActivity(intent);
         });
     }

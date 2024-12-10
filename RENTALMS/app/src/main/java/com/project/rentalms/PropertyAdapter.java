@@ -48,11 +48,14 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.ViewHo
         holder.priceTextView.setText(property.getPrice());
         holder.paymentPeriodTextView.setText(property.getPaymentPeriod());
 
-        // Set up delete button functionality
         holder.deleteButton.setOnClickListener(v -> {
-            propertyList.remove(position);
-            notifyItemRemoved(position);
-            deletePropertyFromFirebase(property.getPropertyName(), holder.itemView.getContext());
+            if (position >= 0 && position < propertyList.size()) {
+                propertyList.remove(position);  // Safely remove the item
+                notifyItemRangeRemoved(position, propertyList.size()); // Notify RecyclerView
+                deletePropertyFromFirebase(property.getPropertyName(), holder.itemView.getContext());
+            } else {
+                Log.e("PropertyAdapter", "Attempted to remove an invalid position: " + position);
+            }
         });
 
         holder.editButton.setOnClickListener(v -> {

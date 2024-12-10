@@ -17,38 +17,43 @@
             android:text="Set Schedule"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="20dp" />
+             />
 
         <!-- Property Details -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Property Details"
-            android:textSize="18sp"
+            android:textSize="20dp"
             android:textStyle="bold"
-            android:paddingBottom="10dp" />
-
-        <TextView
-            android:id="@+id/tv_property_document_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Property Document ID: "
-            android:textSize="16sp"/>
-
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
 
         <TextView
             android:id="@+id/tv_property_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Property Name: "
-            android:textSize="16sp" />
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/tv_barangay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Barangay: "
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="16sp" />
 
         <TextView
@@ -56,6 +61,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Address: "
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="16sp" />
 
         <TextView
@@ -63,39 +70,66 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="City: "
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="16sp"
-            android:paddingBottom="20dp" />
+             />
+        </LinearLayout>
 
         <!-- Date Picker -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Select Date:"
-            android:textSize="16sp" />
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp" />
         <DatePicker
             android:id="@+id/date_picker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/input_box"/>
 
         <!-- Time Picker -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Select Time:"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="16sp"
             android:paddingTop="16dp" />
         <TimePicker
             android:id="@+id/time_picker"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/input_box"/>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_my_schedule"
+                android:layout_width="120dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/input_boxer"
+                android:text="My schedule" />
 
         <!-- Submit Button -->
         <Button
             android:id="@+id/btn_set_schedule"
-            android:layout_width="match_parent"
+            android:layout_width="120dp"
             android:layout_height="65dp"
             android:layout_marginTop="20dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/input_boxer"
             android:text="Set Schedule" />
 
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

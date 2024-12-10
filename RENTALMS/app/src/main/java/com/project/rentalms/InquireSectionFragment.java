@@ -1,6 +1,7 @@
 package com.project.rentalms;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ public class InquireSectionFragment extends Fragment {
     private String paymentPeriod;
     private String description;
     private String userId;
+    private String landlordId;
+    private String propertyId;
 
 
     @Nullable
@@ -44,7 +47,11 @@ public class InquireSectionFragment extends Fragment {
             paymentPeriod = getArguments().getString("paymentPeriod", "Period"); // Retrieve paymentPeriod
             description = getArguments().getString("description", "Description");
             userId = getArguments().getString("userId", "UserId");
-
+            landlordId = getArguments().getString("landlordId", "LandlordId");
+            propertyId = getArguments().getString("propertyId", "PropertyId");
+            Log.e("InquireSectionFragment", "Property ID: " + propertyId);
+            Log.e("InquireSectionFragment", "User ID: " + userId);
+            Log.e("InquireSectionFragment", "Landlord ID: " + landlordId);
         }
 
         priceTextView = view.findViewById(R.id.priceTextView);
@@ -55,7 +62,7 @@ public class InquireSectionFragment extends Fragment {
         inquireButton = view.findViewById(R.id.inquireButton);
         inquireButton.setOnClickListener(v -> {
             ((PropertyDetailsActivity) getActivity()).showInquireOverlayFragment(
-                    propertyName, type, barangay, address, city, province, price, paymentPeriod, userId, description);
+                    propertyName, type, barangay, address, city, province, price, paymentPeriod, userId, description, landlordId, propertyId);
         });
 
         return view;

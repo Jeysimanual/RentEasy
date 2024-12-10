@@ -2,6 +2,7 @@ package com.project.rentalms;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +24,8 @@ public class PropertyDetailsActivity extends AppCompatActivity {
     private TextView propertyNameTextView, barangayTextView, addressTextView, cityTextView, priceTextView, typeTextView, descriptionTextView, featuresTextView;
     private ViewPager2 imageSlider;
     private TabLayout indicatorTabLayout;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -41,6 +46,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
 
         // Retrieve data from the Intent
         String propertyName = getIntent().getStringExtra("propertyName");
+        Log.e("PropertyDetailsActivity", "Property Name: " + propertyName);
         String barangay = getIntent().getStringExtra("barangay");
         String address = getIntent().getStringExtra("address");
         String city = getIntent().getStringExtra("city");
@@ -52,7 +58,9 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         String exteriorImageUrl = getIntent().getStringExtra("exteriorImageUrl");
         String interiorImageUrl = getIntent().getStringExtra("interiorImageUrl");
         String userId = getIntent().getStringExtra("userId");
-
+        Log.e("PropertyDetailsActivity", "User ID: " + userId);
+        String propertyId = getIntent().getStringExtra("propertyId");
+        Log.e("PropertyDetailsActivity", "Property ID: " + propertyId);
         // Retrieve features as a list of strings
         ArrayList<String> featuresList = getIntent().getStringArrayListExtra("features");
 
@@ -90,11 +98,52 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                 }).attach();
 
         // Add inquire section fragment
-        addInquireSectionFragment(propertyName, type, barangay, address, city, province, price, paymentPeriod, description, userId);
+        addInquireSectionFragment(propertyName, type, barangay, address, city, province, price, paymentPeriod, description, userId, propertyId);
+    }
+    private void fetchLandlordId(String propertyId, LandlordIdCallback callback) {
+        db.collection("Landlords")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (QueryDocumentSnapshot landlordDoc : task.getResult()) {
+                            String landlordId = landlordDoc.getId(); // Get the landlord ID
+
+                            // Check the 'properties' sub-collection for the property ID
+                            db.collection("Landlords").document(landlordId)
+                                    .collection("properties")
+                                    .document(propertyId)
+                                    .get()
+                                    .addOnCompleteListener(propertyTask -> {
+                                        if (propertyTask.isSuccessful() && propertyTask.getResult() != null) {
+                                            if (propertyTask.getResult().exists()) {
+                                                // Property found, landlordId is the desired value
+                                                Log.e("LandlordId Property", "Landlord ID: " + landlordId);
+                                                callback.onLandlordIdRetrieved(landlordId);
+                                            }
+                                        }
+                                    });
+                        }
+                    } else {
+                        // Handle error
+                        Log.e("FirestoreError", "Error fetching landlords", task.getException());
+                    }
+                });
     }
 
+
+
+    // Callback interface for landlord ID retrieval
+    private interface LandlordIdCallback {
+        void onLandlordIdRetrieved(String landlordId);
+    }
+
+
+
+
+
+
     // Method to show the overlay fragment
-    public void showInquireOverlayFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod,String description, String userId) {
+    public void showInquireOverlayFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod, String description, String userId , String landlordId, String propertyId) {
         InquireOverlayFragment inquireOverlayFragment = new InquireOverlayFragment();
         Bundle bundle = new Bundle();
         bundle.putString("propertyName", propertyName);
@@ -107,6 +156,9 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         bundle.putString("paymentPeriod", paymentPeriod); // Pass paymentPeriod to overlay fragment
         bundle.putString("description", description);
         bundle.putString("userId", userId);
+        bundle.putString("landlordId", landlordId);
+        bundle.putString("propertyId", propertyId);
+        Log.e("PropertyDetailsActivity", "Property ID: " + propertyId);
         inquireOverlayFragment.setArguments(bundle);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -116,28 +168,39 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void addInquireSectionFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod, String description, String userId) {
-        InquireSectionFragment inquireSectionFragment = new InquireSectionFragment();
-
-        // Set up the bundle with property data
-        Bundle bundle = new Bundle();
-        bundle.putString("propertyName", propertyName);
-        bundle.putString("type", type);
-        bundle.putString("barangay", barangay);
-        bundle.putString("address", address);
-        bundle.putString("city", city);
-        bundle.putString("province", province);
-        bundle.putString("price", price);
-        bundle.putString("paymentPeriod", paymentPeriod); // Add paymentPeriod to bundle
-        bundle.putString("description", description);
-        bundle.putString("userId", userId);
+    private void addInquireSectionFragment(String propertyName, String type, String barangay, String address, String city, String province, String price, String paymentPeriod, String description, String userId, String propertyId) {
+        if (propertyId != null) {
+            fetchLandlordId(propertyId, landlordId -> {
 
 
-        inquireSectionFragment.setArguments(bundle);
+                InquireSectionFragment inquireSectionFragment = new InquireSectionFragment();
 
-        // Add the fragment to the container
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.inquire_section_container, inquireSectionFragment)
-                .commit();
+                // Set up the bundle with property data
+                Bundle bundle = new Bundle();
+                bundle.putString("propertyName", propertyName);
+                bundle.putString("propertyId", propertyId);
+                bundle.putString("type", type);
+                bundle.putString("barangay", barangay);
+                bundle.putString("address", address);
+                bundle.putString("city", city);
+                bundle.putString("province", province);
+                bundle.putString("price", price);
+                bundle.putString("paymentPeriod", paymentPeriod); // Add paymentPeriod to bundle
+                bundle.putString("description", description);
+                bundle.putString("userId", userId);
+                bundle.putString("landlordId", landlordId);
+                Log.e("PropertyDetailsActivity add Inquire", "Landlord ID: " + landlordId);
+                Log.e("PropertyDetailsActivity add Inquire", "Property ID: " + propertyId);
+
+
+                inquireSectionFragment.setArguments(bundle);
+
+                // Add the fragment to the container
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.inquire_section_container, inquireSectionFragment)
+                        .commit();
+
+            });
+        }
     }
 }

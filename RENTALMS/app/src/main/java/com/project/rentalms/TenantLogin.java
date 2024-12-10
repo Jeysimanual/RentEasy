@@ -115,7 +115,7 @@ public class TenantLogin extends AppCompatActivity {
 
                                                 // Pass the tenantId (userId) to TenantPage
                                                 Intent intent = new Intent(TenantLogin.this, TenantPage.class);
-                                                intent.putExtra("tenantId", userId);
+                                                intent.putExtra("tenantId", mAuth.getCurrentUser().getUid());
                                                 startActivity(intent);
                                                 finish(); // Close the login activity
                                             } else {
